@@ -17,7 +17,8 @@
       --accent: #ffca28; --bg: #f8fbf8; --white: #ffffff;
       --text: #1b261b; --text-mid: #4c5c4c; --text-light: #7b8d7b; --border: #e0ece0;
       --card-shadow: 0 4px 12px rgba(46, 125, 50, 0.08); --radius: 16px; --radius-sm: 10px;
-      --nav-h: 72px; --safe-b: env(safe-area-inset-bottom, 0px);
+      --nav-h: 60px; /* Altezza ridotta per iPhone */
+      --safe-b: env(safe-area-inset-bottom, 0px);
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
@@ -35,18 +36,21 @@
     #app { display: flex; flex-direction: column; height: 100dvh; }
     #topbar { background: var(--green-deep); color: white; padding: 14px 16px 12px; padding-top: calc(14px + env(safe-area-inset-top, 0px)); display: flex; align-items: center; gap: 12px; flex-shrink: 0; box-shadow: 0 2px 10px rgba(0,0,0,0.15); z-index: 10; }
     #topbar .logo-icon { width: 38px; height: 38px; flex-shrink: 0; }
-    #topbar h1 { font-family: 'Fraunces', serif; font-size: 1.25rem; font-weight: 900; line-height: 1.1; flex: 1; }
+    #topbar h1 { font-family: 'Fraunces', serif; font-size: 1.25rem; font-weight: 900; line-height: 1.1; flex: 1; margin-right: auto; }
     #topbar h1 span { font-size: 0.8rem; font-weight: 600; opacity: 0.8; display: block; font-family: 'Nunito', sans-serif; }
-    .settings-btn { background: none; border: none; color: white; cursor: pointer; padding: 4px; display: flex; align-items: center; justify-content: center; }
+    
+    .top-actions { display: flex; gap: 4px; }
+    .settings-btn { background: none; border: none; color: white; cursor: pointer; padding: 6px; display: flex; align-items: center; justify-content: center; }
     
     #content { flex: 1; overflow: hidden; position: relative; }
     .page { position: absolute; inset: 0; overflow-y: auto; padding-bottom: calc(var(--nav-h) + var(--safe-b) + 20px); display: none; }
     .page.active { display: block; }
 
     #navbar { background: var(--white); border-top: 1px solid var(--border); display: flex; height: calc(var(--nav-h) + var(--safe-b)); padding-bottom: var(--safe-b); flex-shrink: 0; box-shadow: 0 -4px 16px rgba(0,0,0,0.04); z-index: 10; }
-    .nav-btn { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; border: none; background: none; cursor: pointer; color: var(--text-light); font-family: 'Nunito', sans-serif; font-size: 0.62rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; transition: color 0.2s; }
+    .nav-btn { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; border: none; background: none; cursor: pointer; color: var(--text-light); font-family: 'Nunito', sans-serif; font-size: 0.62rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; transition: color 0.2s; padding-top: 4px; }
     .nav-btn svg { width: 24px; height: 24px; transition: transform 0.2s; stroke-width: 1.8; }
-    .nav-btn.active { color: var(--green-dark); }
+    /* Icone attive molto più scure */
+    .nav-btn.active { color: var(--green-deep); }
     .nav-btn.active svg { transform: scale(1.15); stroke-width: 2.5; }
 
     .section-header { padding: 20px 16px 12px; }
@@ -190,9 +194,14 @@
   <div id="topbar">
     <svg class="logo-icon" viewBox="0 0 36 36"><circle cx="18" cy="18" r="18" fill="#e8f5e9"/><rect x="16.5" y="22" width="3" height="8" rx="1.5" fill="#8d6e63"/><ellipse cx="18" cy="18" rx="10" ry="8" fill="#81c784"/><ellipse cx="18" cy="13" rx="7" ry="6" fill="#4caf50"/><ellipse cx="18" cy="9" rx="4" ry="4" fill="#a5d6a7"/></svg>
     <h1>Sport al Parco<span>Brescia 2026</span></h1>
-    <button class="settings-btn" onclick="openSettings()">
-      <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
-    </button>
+    <div class="top-actions">
+      <button class="settings-btn" onclick="switchPage('info')" aria-label="Informazioni">
+        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+      </button>
+      <button class="settings-btn" onclick="openSettings()" aria-label="Impostazioni">
+        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+      </button>
+    </div>
   </div>
 
   <div id="content">
@@ -303,10 +312,6 @@
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
       Progressi
     </button>
-    <button class="nav-btn" data-page="info" onclick="switchPage('info')">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-      Info
-    </button>
   </nav>
 </div>
 
@@ -371,9 +376,6 @@
 <div id="toast"></div>
 
 <script>
-// ═══════════════════════════════════════════════
-// SETUP E DATI
-// ═══════════════════════════════════════════════
 const START = new Date(2026, 5, 1);
 const END   = new Date(2026, 7, 1);
 let TODAY = new Date();
@@ -520,7 +522,7 @@ function getDistance(lat1, lon1, lat2, lon2) {
   const R = 6371; const dLat = (lat2-lat1)*Math.PI/180; const dLon = (lon2-lon1)*Math.PI/180;
   const a = Math.sin(dLat/2)*Math.sin(dLat/2) + Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLon/2)*Math.sin(dLon/2);
   const straight = R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-  return straight * 1.6; // Moltiplicatore ritarato per stima urbana (circa 60% deviazione strade)
+  return straight * 1.6; // Moltiplicatore ritarato per simulare deviazioni stradali
 }
 
 async function fetchGeocode(query, limit = 10) {
@@ -708,7 +710,9 @@ function switchPage(name) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
   document.getElementById('page-' + name).classList.add('active');
-  document.querySelector(`.nav-btn[data-page="${name}"]`).classList.add('active');
+  const activeBtn = document.querySelector(`.nav-btn[data-page="${name}"]`);
+  if(activeBtn) activeBtn.classList.add('active');
+  
   if (name === 'calendar') renderCalendar();
   if (name === 'history') renderHistory();
 }
@@ -758,9 +762,7 @@ function refreshDropdowns() {
     if (checkPark !== 'all' && act.park !== checkPark) return false;
     if (checkAct !== 'all' && act.name !== checkAct) return false;
     let dist = null;
-    if (state.coords && PARK_COORDS[act.park]) {
-      dist = getDistance(state.coords.lat, state.coords.lon, PARK_COORDS[act.park][0], PARK_COORDS[act.park][1]);
-    }
+    if (state.coords && PARK_COORDS[act.park]) dist = getDistance(state.coords.lat, state.coords.lon, PARK_COORDS[act.park][0], PARK_COORDS[act.park][1]);
     if (checkDist !== 'all' && (dist === null || dist > parseInt(checkDist))) return false;
     if (checkDate !== 'all') {
       let hasDate = false; getOccurrences(act).forEach(d => { if (formatDate(d) === checkDate) hasDate = true; });
@@ -866,7 +868,7 @@ function renderList() {
     list.appendChild(card);
   });
   
-  // Scroll to top
+  // Scroll automatico in alto quando si cambiano i filtri o la data
   document.getElementById('page-activities').scrollTop = 0;
 }
 
@@ -975,7 +977,7 @@ function renderCalDay(dStr) {
 }
 function markDone(id, dStr) { toggleDone(id, dStr); const d = isDone(id, dStr); showToast(d ? 'Bravissimo! 🏆' : 'Segno rimosso'); renderCalendar(); }
 
-// HISTORY
+// HISTORY E STATS POPUP
 function renderHistory() {
   const wrap = document.getElementById('hist-stats-wrap');
   const list = document.getElementById('hist-list'); list.innerHTML = '';
@@ -1037,12 +1039,12 @@ function showStatModal(type) {
   if (type === 'sports') {
       title.textContent = "Gli Sport che hai provato";
       const sports = [...new Set(doneItems.map(a=>a.name))].sort();
-      if(sports.length===0) list.innerHTML = '<div class="suggestion-item">Nessuno sport provato.</div>';
+      if(sports.length===0) list.innerHTML = '<div class="suggestion-item" style="color:var(--text-light)">Nessuno sport provato.</div>';
       sports.forEach(s => list.innerHTML += `<div class="suggestion-item" style="cursor:default">${s}</div>`);
   } else if (type === 'parks') {
       title.textContent = "I Parchi che hai visitato";
       const parks = [...new Set(doneItems.map(a=>a.park))].sort();
-      if(parks.length===0) list.innerHTML = '<div class="suggestion-item">Nessun parco visitato.</div>';
+      if(parks.length===0) list.innerHTML = '<div class="suggestion-item" style="color:var(--text-light)">Nessun parco visitato.</div>';
       parks.forEach(p => list.innerHTML += `<div class="suggestion-item" style="cursor:default">${p}</div>`);
   }
   document.getElementById('stat-modal-overlay').classList.add('open');
