@@ -8,13 +8,6 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
   <meta name="apple-mobile-web-app-title" content="Sport al Parco"/>
   <title>Sport al Parco 2026 - Brescia</title>
-<link rel="manifest" href="manifest.json">
-<link rel="apple-touch-icon" href="icon.png">
-<script>
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('sw.js');
-  }
-</script>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fraunces:ital,wght@0,700;0,900;1,700&display=swap" rel="stylesheet"/>
   
@@ -30,7 +23,6 @@
     * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
     html, body { height: 100%; background: var(--bg); font-family: 'Nunito', sans-serif; color: var(--text); overflow: hidden; }
 
-    /* Colori Attività */
     .color-ginnastica   { --act-color: #66bb6a; } .color-taichi       { --act-color: #5c6bc0; }
     .color-pilates      { --act-color: #ab47bc; } .color-nordic       { --act-color: #ff7043; }
     .color-yoga         { --act-color: #7e57c2; } .color-funzionale   { --act-color: #ef5350; }
@@ -40,7 +32,6 @@
     .color-danze        { --act-color: #ec407a; } .color-posturale    { --act-color: #26a69a; }
     .color-bodytonic    { --act-color: #ff5252; }
 
-    /* App Shell */
     #app { display: flex; flex-direction: column; height: 100dvh; }
     #topbar { background: var(--green-deep); color: white; padding: 14px 16px 12px; padding-top: calc(14px + env(safe-area-inset-top, 0px)); display: flex; align-items: center; gap: 12px; flex-shrink: 0; box-shadow: 0 2px 10px rgba(0,0,0,0.15); z-index: 10; }
     #topbar .logo-icon { width: 38px; height: 38px; flex-shrink: 0; }
@@ -53,8 +44,8 @@
     .page.active { display: block; }
 
     #navbar { background: var(--white); border-top: 1px solid var(--border); display: flex; height: calc(var(--nav-h) + var(--safe-b)); padding-bottom: var(--safe-b); flex-shrink: 0; box-shadow: 0 -4px 16px rgba(0,0,0,0.04); z-index: 10; }
-    .nav-btn { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; border: none; background: none; cursor: pointer; color: var(--text-light); font-family: 'Nunito', sans-serif; font-size: 0.65rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; transition: color 0.2s; }
-    .nav-btn svg { width: 26px; height: 26px; transition: transform 0.2s; stroke-width: 1.5; }
+    .nav-btn { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; border: none; background: none; cursor: pointer; color: var(--text-light); font-family: 'Nunito', sans-serif; font-size: 0.62rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; transition: color 0.2s; }
+    .nav-btn svg { width: 24px; height: 24px; transition: transform 0.2s; stroke-width: 1.8; }
     .nav-btn.active { color: var(--green-dark); }
     .nav-btn.active svg { transform: scale(1.15); stroke-width: 2.5; }
 
@@ -62,7 +53,6 @@
     .section-title { font-family: 'Fraunces', serif; font-size: 1.6rem; font-weight: 900; color: var(--green-deep); }
     .section-sub { font-size: 0.85rem; color: var(--text-mid); margin-top: 2px; font-weight: 600; }
 
-    /* Timeline & Filtri a Scomparsa */
     .smart-filters { position: sticky; top: 0; background: var(--bg); z-index: 5; box-shadow: 0 4px 10px rgba(0,0,0,0.03); border-bottom: 1px solid var(--border); }
     .timeline-wrap { display: flex; gap: 8px; overflow-x: auto; padding: 12px 16px; scrollbar-width: none; }
     .timeline-wrap::-webkit-scrollbar { display: none; }
@@ -84,11 +74,8 @@
     @keyframes slideDown { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
     
     .filter-row-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-    .filter-select { appearance: none; background: var(--white) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%234caf50' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E") no-repeat right 12px center; background-size: 16px; border: 1.5px solid var(--border); border-radius: 10px; padding: 10px 32px 10px 12px; font-family: 'Nunito', sans-serif; font-size: 0.85rem; font-weight: 700; color: var(--text); outline: none; box-shadow: 0 2px 6px rgba(0,0,0,0.02); width: 100%; text-overflow: ellipsis; }
-    .filter-select:focus { border-color: var(--green-dark); }
-    .filter-select:disabled { background-color: var(--bg); color: var(--text-light); opacity: 0.7; }
-
-    /* Lista Attività */
+    .filter-select { appearance: none; background: var(--white) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%234caf50' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E") no-repeat right 12px center; background-size: 16px; border: 1.5px solid var(--border); border-radius: 10px; padding: 10px 32px 10px 12px; font-family: 'Nunito', sans-serif; font-size: 0.85rem; font-weight: 700; color: var(--text); outline: none; width: 100%; text-overflow: ellipsis; }
+    
     .activities-list { padding: 12px 16px 20px; display: flex; flex-direction: column; gap: 12px; }
     .date-divider { font-size: 0.8rem; font-weight: 800; color: var(--green-deep); text-transform: uppercase; letter-spacing: 0.05em; margin: 12px 0 4px; border-bottom: 2px solid var(--green-pale); padding-bottom: 4px; }
     .act-card { background: var(--white); border-radius: var(--radius); box-shadow: var(--card-shadow); overflow: hidden; cursor: pointer; display: flex; border-left: 6px solid var(--act-color, var(--green)); transition: transform 0.15s; }
@@ -100,14 +87,13 @@
     .act-park { font-size: 0.8rem; font-weight: 600; color: var(--text-mid); margin-top: 6px; display: flex; align-items: center; gap: 6px; }
     .act-dist { font-size: 0.7rem; color: var(--text-light); background: var(--bg); padding: 2px 6px; border-radius: 6px; font-weight: 700; }
     .act-card-bookmark { width: 50px; display: flex; align-items: center; justify-content: center; cursor: pointer; border-left: 1px solid var(--green-pale); }
-    .act-card-bookmark svg { width: 26px; height: 26px; fill: none; stroke: var(--green-light); stroke-width: 2; transition: all 0.2s; }
+    .act-card-bookmark svg { width: 26px; height: 26px; fill: none; stroke: var(--green-light); stroke-width: 2; }
     .act-card-bookmark.saved svg { fill: var(--green-dark); stroke: var(--green-dark); }
     .empty-msg { text-align: center; padding: 50px 20px; color: var(--text-light); font-size: 0.95rem; font-weight: 600; }
 
-    /* Modale */
-    #modal-overlay, #settings-overlay { position: fixed; inset: 0; z-index: 1000; background: rgba(0,0,0,0.5); backdrop-filter: blur(3px); display: none; align-items: flex-end; }
-    #modal-overlay.open, #settings-overlay.open { display: flex; }
-    #modal-sheet, #settings-sheet { background: var(--bg); border-radius: 28px 28px 0 0; width: 100%; max-height: 92vh; overflow-y: auto; padding-bottom: calc(24px + var(--safe-b)); animation: slideUp 0.3s cubic-bezier(0.2, 0.8, 0.2, 1); box-shadow: 0 -4px 20px rgba(0,0,0,0.1); position: relative; }
+    #modal-overlay, #settings-overlay, #stat-modal-overlay { position: fixed; inset: 0; z-index: 1000; background: rgba(0,0,0,0.5); backdrop-filter: blur(3px); display: none; align-items: flex-end; }
+    #modal-overlay.open, #settings-overlay.open, #stat-modal-overlay.open { display: flex; }
+    #modal-sheet, #settings-sheet, #stat-modal-sheet { background: var(--bg); border-radius: 28px 28px 0 0; width: 100%; max-height: 92vh; overflow-y: auto; padding-bottom: calc(24px + var(--safe-b)); animation: slideUp 0.3s cubic-bezier(0.2, 0.8, 0.2, 1); position: relative; }
     @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
     
     .modal-close-btn { position: absolute; top: 16px; right: 16px; width: 36px; height: 36px; background: var(--border); border: none; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--text-mid); z-index: 10; }
@@ -127,7 +113,9 @@
     .alert-box { background: #fff8e1; border-left: 4px solid var(--accent); padding: 14px; border-radius: 8px; margin-top: 12px; font-size: 0.85rem; color: #5d4037; line-height: 1.5; }
     .alert-box strong { color: #f57f17; display: block; margin-bottom: 6px; font-size: 0.9rem; }
     .alert-box ul { margin-left: 20px; margin-top: 4px; }
-    .alert-box li { margin-bottom: 4px; }
+    
+    .meeting-box { background: var(--green-pale); padding: 12px; border-radius: 8px; margin-top: 12px; font-size: 0.85rem; color: var(--green-deep); border: 1px solid var(--green-light); display:flex; gap:10px; align-items:flex-start; }
+    .meeting-box svg { flex-shrink: 0; width: 18px; height: 18px; color: var(--green-dark); margin-top: 2px;}
 
     .modal-actions { display: grid; grid-template-columns: 1fr; gap: 10px; margin-top: 24px; }
     .action-btn { padding: 14px; border-radius: 14px; border: none; font-family: 'Nunito', sans-serif; font-size: 0.95rem; font-weight: 800; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 8px; text-decoration: none; transition: transform 0.1s; }
@@ -137,7 +125,6 @@
     .btn-save.saved { background: var(--green-dark); color: white; border-color: var(--green-dark); }
     .btn-remove { background: transparent; color: #e53935; border: 2px solid #ffcdd2; margin-top: 8px; }
 
-    /* Welcome & Settings Modal */
     #welcome-overlay { position: fixed; inset: 0; background: var(--green-deep); z-index: 2000; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 20px; text-align: center; color: white; }
     .welcome-box { background: white; color: var(--text); padding: 30px 20px; border-radius: 24px; width: 100%; max-width: 380px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
     .welcome-title { font-family: 'Fraunces', serif; font-size: 1.8rem; font-weight: 900; color: var(--green-deep); margin-bottom: 10px; }
@@ -145,13 +132,10 @@
     .input-field:focus { border-color: var(--green-dark); }
     .btn-primary { width: 100%; padding: 14px; background: var(--green-dark); color: white; font-family: 'Nunito', sans-serif; font-size: 1rem; font-weight: 800; border: none; border-radius: 12px; cursor: pointer; margin-top: 20px; }
 
-    /* Dropdown Autocomplete Pulito */
     .suggestions-box { position: absolute; top: 100%; left: 0; right: 0; background: white; border: 1px solid var(--border); border-radius: 8px; max-height: 220px; overflow-y: auto; z-index: 3000; box-shadow: 0 4px 12px rgba(0,0,0,0.1); display: none; text-align: left; margin-top: 4px; }
     .suggestion-item { padding: 12px 14px; font-size: 0.9rem; color: var(--text); border-bottom: 1px solid var(--green-pale); cursor: pointer; line-height: 1.3; font-weight: 600; }
     .suggestion-item:last-child { border-bottom: none; }
-    .suggestion-item:active { background: var(--green-pale); }
 
-    /* Calendario & Storico */
     .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; padding: 0 16px 16px; }
     .cal-day-header { text-align: center; font-size: 0.7rem; font-weight: 800; color: var(--text-light); text-transform: uppercase; padding: 8px 0; }
     .cal-day { min-height: 54px; border-radius: 12px; padding: 6px 4px; display: flex; flex-direction: column; align-items: center; cursor: pointer; background: var(--white); border: 1px solid var(--border); }
@@ -160,18 +144,28 @@
     .cal-day.selected { background: var(--green-pale); border-color: var(--green); box-shadow: inset 0 0 0 1px var(--green); }
     .cal-day-num { font-size: 0.9rem; font-weight: 800; color: var(--text); width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; border-radius: 50%; margin-bottom: 4px; }
     .cal-dots { display: flex; gap: 3px; flex-wrap: wrap; justify-content: center; padding: 0 2px; }
-    .cal-dot { width: 6px; height: 6px; border-radius: 50%; box-shadow: 0 1px 2px rgba(0,0,0,0.1); }
+    .cal-dot { width: 6px; height: 6px; border-radius: 50%; }
     
     .list-item { background: var(--white); border-radius: var(--radius-sm); padding: 12px; box-shadow: var(--card-shadow); display: flex; gap: 12px; align-items: center; border-left: 5px solid var(--act-color, var(--green)); margin-bottom: 10px; }
     .list-info { flex: 1; cursor: pointer; }
     .list-check { width: 36px; height: 36px; border-radius: 50%; border: 2.5px solid var(--green-light); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; }
     .list-check.done { background: var(--green-dark); border-color: var(--green-dark); }
     
-    .hist-stats { margin: 0 16px 20px; background: linear-gradient(135deg, var(--green-dark), var(--green-deep)); border-radius: var(--radius); padding: 20px; color: white; display: flex; }
-    .hist-stat { flex: 1; text-align: center; }
+    .hist-stats { margin: 0 16px 12px; background: linear-gradient(135deg, var(--green-dark), var(--green-deep)); border-radius: var(--radius); padding: 20px 10px; color: white; display: flex; box-shadow: 0 4px 12px rgba(46, 125, 50, 0.2); }
+    .hist-stat { flex: 1; text-align: center; cursor: pointer; }
     .hist-stat-num { font-family: 'Fraunces', serif; font-size: 1.8rem; font-weight: 900; }
-    .hist-stat-label { font-size: 0.65rem; font-weight: 700; text-transform: uppercase; margin-top: 4px; opacity: 0.9;}
-    .hist-divider { width: 2px; background: rgba(255,255,255,0.2); margin: 0 10px; border-radius: 2px; }
+    .hist-stat-label { font-size: 0.65rem; font-weight: 800; text-transform: uppercase; margin-top: 4px; opacity: 0.9;}
+    .hist-divider { width: 2px; background: rgba(255,255,255,0.2); margin: 0 5px; border-radius: 2px; }
+
+    /* Tabs per pagina INFO */
+    .tabs-nav { display: flex; padding: 0 16px; margin-bottom: 16px; border-bottom: 2px solid var(--border); }
+    .tab-btn { flex: 1; text-align: center; padding: 12px 0; font-family: 'Nunito', sans-serif; font-size: 0.9rem; font-weight: 800; color: var(--text-light); background: none; border: none; cursor: pointer; border-bottom: 3px solid transparent; margin-bottom: -2px; }
+    .tab-btn.active { color: var(--green-deep); border-bottom-color: var(--green-dark); }
+    .tab-content { display: none; padding: 0 16px; font-size: 0.95rem; line-height: 1.6; color: var(--text-mid); }
+    .tab-content.active { display: block; animation: fadeIn 0.3s ease-out; }
+    .tab-content h3 { color: var(--green-deep); font-size: 1.2rem; margin: 20px 0 10px; font-family: 'Fraunces', serif; font-weight: 900; }
+    .tab-content ul { margin-left: 20px; margin-bottom: 16px; }
+    .tab-content li { margin-bottom: 8px; }
 
     #toast { position: fixed; bottom: calc(var(--nav-h) + var(--safe-b) + 20px); left: 50%; transform: translateX(-50%) translateY(20px); background: var(--text); color: white; padding: 12px 24px; border-radius: 30px; font-size: 0.9rem; font-weight: 800; z-index: 3000; opacity: 0; transition: all 0.3s; pointer-events: none; text-align: center; }
     #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
@@ -182,7 +176,7 @@
 <div id="welcome-overlay">
   <div class="welcome-box">
     <div class="welcome-title">Benvenuto!</div>
-    <p style="font-size: 0.9rem; color: var(--text-mid); font-weight: 600; line-height: 1.4;">Personalizza la tua esperienza inserendo il tuo nome e l'indirizzo di partenza (per la distanza dai parchi).</p>
+    <p style="font-size: 0.9rem; color: var(--text-mid); font-weight: 600; line-height: 1.4;">Personalizza l'app con il tuo nome e l'indirizzo di partenza (per il calcolo delle distanze).</p>
     <input type="text" id="welcome-name" class="input-field" placeholder="Il tuo Nome (es. Marco)" autocomplete="off">
     <div style="position: relative;">
       <input type="text" id="welcome-address" class="input-field" placeholder="Indirizzo (es. Via Corfù 53, Brescia)" autocomplete="off" oninput="debounceSearch(this.value, 'welcome')">
@@ -251,8 +245,49 @@
         <div class="section-sub">Tutte le attività completate</div>
       </div>
       <div id="hist-stats-wrap"></div>
+      <div style="padding: 0 16px 8px;">
+        <div style="font-size: 0.85rem; font-weight: 800; color: var(--green-deep); text-transform: uppercase; border-bottom: 2px solid var(--green-pale); padding-bottom: 6px; margin-bottom: 12px;" id="hist-sessions-label">Sessioni completate: 0</div>
+      </div>
       <div style="padding: 0 16px;" id="hist-list"></div>
     </div>
+
+    <div class="page" id="page-info">
+      <div class="section-header">
+        <div class="section-title">L'Iniziativa</div>
+        <div class="section-sub">Tutto su Sport al Parco 2026</div>
+      </div>
+      
+      <div class="tabs-nav">
+        <button class="tab-btn active" onclick="switchTab('tab-info-1', this)">Cos'è</button>
+        <button class="tab-btn" onclick="switchTab('tab-info-2', this)">Regole & Iscrizioni</button>
+      </div>
+
+      <div id="tab-info-1" class="tab-content active">
+        <h3>Sport al Parco 2026</h3>
+        <p>Torna <strong>"Sport al Parco"</strong>, la rassegna libera e gratuita dedicata allo sport all'aria aperta organizzata dal Comune di Brescia. L'iniziativa si svolgerà <strong>dal 1º Giugno al 1º Agosto 2026</strong>.</p>
+        <p style="margin-top:10px;">Un palinsesto ricco e diversificato che spazia dalla ginnastica dolce al Tai-Chi, dal Pilates al Nordic Walking, fino a novità assolute come le danze popolari e il disc golf, valorizzando tutti i parchi e le aree verdi dei quartieri cittadini.</p>
+        <h3>I Parchi Coinvolti</h3>
+        <p>Grazie al dialogo con i Consigli di Quartiere e all'iniziativa <em>Brescia Partecipa</em>, sono state aggiunte nuove programmazioni nei parchi Ducos 1, Vento del Mascheda, Pace, Martinoni, Marcolini (Violino), Maggiolini e Frugoni. I corsi al parco delle Stagioni sono stati ulteriormente potenziati per accogliere la sempre maggiore richiesta.</p>
+      </div>
+
+      <div id="tab-info-2" class="tab-content">
+        <h3>Modalità di Partecipazione</h3>
+        <ul>
+          <li><strong>Costi:</strong> La partecipazione a tutti i corsi in programma è completamente libera e <strong>gratuita</strong>.</li>
+          <li><strong>Ritrovo:</strong> Presentati nel giorno e all'orario indicato presso i punti di ritrovo segnalati con l'apposito cartello all'interno del parco. Gli insegnanti saranno facilmente riconoscibili grazie alla T-shirt ufficiale "Sport al Parco".</li>
+          <li><strong>Attrezzatura:</strong> Per le discipline che prevedono esercizi a terra (come Yoga, Pilates o Ginnastica), è necessario portare da casa il proprio materassino o telo. Per il Nordic Walking è richiesto l'uso delle proprie racchette. Per i corsi al Lago Canneto, invece, tutto il materiale sarà fornito in loco.</li>
+        </ul>
+        <h3>Iscrizioni e Prenotazioni</h3>
+        <p>La stragrande maggioranza dei corsi <strong>non richiede alcuna iscrizione</strong> preventiva. Basta presentarsi al parco!</p>
+        <p style="margin-top:10px;">L'iscrizione tramite i moduli online (che puoi trovare all'interno dell'app aprendo le singole schede) è <strong>obbligatoria solo per</strong>:</p>
+        <ul>
+          <li>Camminate Outdoor (Trekking) nel Parco delle Colline.</li>
+          <li>Corsi in acqua al lago Canneto (Sup, Canoa, Yoga Sup).</li>
+        </ul>
+        <p style="margin-top:10px;"><em>Contatti: Settore Partecipazione Comune di Brescia (030 297.8272).</em></p>
+      </div>
+    </div>
+
   </div>
 
   <nav id="navbar">
@@ -268,6 +303,10 @@
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
       Progressi
     </button>
+    <button class="nav-btn" data-page="info" onclick="switchPage('info')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+      Info
+    </button>
   </nav>
 </div>
 
@@ -281,6 +320,19 @@
       <div class="modal-activity-name" id="modal-name"></div>
       <div id="modal-rows"></div>
       <div class="modal-actions" id="modal-actions-container"></div>
+    </div>
+  </div>
+</div>
+
+<div id="stat-modal-overlay" onclick="closeStatModal(event)">
+  <div id="stat-modal-sheet" onclick="event.stopPropagation()">
+    <div class="modal-color-bar" style="background:var(--accent)"></div>
+    <button class="modal-close-btn" onclick="closeStatModal()">
+      <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+    <div class="modal-content">
+      <div class="modal-activity-name" style="color:var(--text); font-size: 1.4rem;" id="stat-modal-title"></div>
+      <div id="stat-modal-list" style="margin-top: 10px; max-height: 50vh; overflow-y: auto;"></div>
     </div>
   </div>
 </div>
@@ -377,10 +429,35 @@ const PARK_COORDS = {
   'Il Sentiero della Resistenza in Maddalena': [45.5560, 10.2750], 'Il Mella dal Polivalente a Collebeato': [45.5700, 10.1900]
 };
 
+const MEETING_POINTS = {
+  'Parco Castelli': 'Ingresso principale vicino chiosco/bar',
+  'Parco Corridoni': 'Cartello di intitolazione parco',
+  'Parco Jan Palach': 'Dietro fontana acqua pubblica',
+  'Parco Belvedere': 'Ingresso principale',
+  'Parco Casazza': 'Davanti cartello intitolazione parco',
+  'Parco Marcolini (Ori Martin)': 'Ingresso del parco',
+  'Parco Torricella di Sotto': 'Giochi per bambini al centro del parco',
+  'Parco delle Stagioni': 'All’ingresso del parco',
+  'Parco dei Poeti': 'All’ingresso centrale del parco',
+  'Parco Basaglia': 'Davanti ai giochi per i bambini',
+  'Giardini Via Fura': 'Alla piastra di basket',
+  'Parco Giffoni': 'All’ingresso del parco',
+  'Parco Pescheto': 'Zona giochi/fontanella',
+  'Parco Via Malibran': 'All’ingresso',
+  'Parco Avis': 'Vicino ai giochi',
+  'Parco Ragnoli': 'All’ingresso della scuola Tovini / Piastra basket',
+  'Parco Ducos 2': 'Ingresso parco lato San Polo (Nave di Harlock)',
+  'Giardini De André': 'Presso piastra basket',
+  'Parco delle Cave (Lago Canneto)': 'Cancello ingresso Lago Canneto / Via Brocchi',
+  'Parco dell\'Acqua': 'Vicino ai giochi per i bambini',
+  'Torri Gemelle': 'Sul vialetto centrale',
+  'Viridarium Santa Giulia': 'Ingresso aperto fino alle 9'
+};
+
 const ACTIVITIES = [
-  { id:1, name:'Pilates', park:'Parco Castelli', zone:'Nord', address:'Via Castelli (chiosco/bar)', days:[2,4], timeStart:'20:00', timeEnd:'21:00' },
+  { id:1, name:'Pilates', park:'Parco Castelli', zone:'Nord', address:'Via Castelli', days:[2,4], timeStart:'20:00', timeEnd:'21:00' },
   { id:2, name:'Allenamento Funzionale', park:'Parco Corridoni', zone:'Nord', address:'Angolo via Corridoni', days:[2,4], timeStart:'19:00', timeEnd:'20:00' },
-  { id:3, name:'Tai Chi', park:'Parco Jan Palach', zone:'Nord', address:'Via Tommaseo (fontana)', days:[1,3], timeStart:'20:30', timeEnd:'21:30' },
+  { id:3, name:'Tai Chi', park:'Parco Jan Palach', zone:'Nord', address:'Via Tommaseo', days:[1,3], timeStart:'20:30', timeEnd:'21:30' },
   { id:4, name:'Ginnastica per Tutti', park:'Parco Belvedere', zone:'Nord', address:'Prealpino', days:[3,5], timeStart:'09:00', timeEnd:'10:00' },
   { id:5, name:'Tai Chi', park:'Parco Casazza', zone:'Nord', address:'Via Reggio', days:[2,4], timeStart:'19:00', timeEnd:'20:00' },
   { id:6, name:'Pilates', park:'Parco Marcolini (Ori Martin)', zone:'Nord', address:'Via Monte Nevoso', days:[2,4], timeStart:'09:00', timeEnd:'10:00' },
@@ -393,12 +470,12 @@ const ACTIVITIES = [
   { id:13, name:'Ginnastica per Tutti', park:'Parco Marcolini (Violino)', zone:'Ovest', address:'Villaggio Violino', days:[2,4], timeStart:'08:30', timeEnd:'09:30' },
   { id:14, name:'Pilates', park:'Parco Frugoni', zone:'Ovest', address:'Chiusure', days:[3,5], timeStart:'19:00', timeEnd:'20:00' },
   { id:15, name:'Vinyasa Yoga', park:'Parco Basaglia', zone:'Sud', address:'Viale Duca degli Abruzzi', days:[2,4], timeStart:'08:00', timeEnd:'09:00' },
-  { id:16, name:'Vinyasa Yoga', park:'Giardini Via Fura', zone:'Sud', address:'Via Fura (piastra basket)', days:[2,4], timeStart:'20:00', timeEnd:'21:00' },
+  { id:16, name:'Vinyasa Yoga', park:'Giardini Via Fura', zone:'Sud', address:'Via Fura', days:[2,4], timeStart:'20:00', timeEnd:'21:00' },
   { id:17, name:'Ginnastica per Tutti', park:'Parco Giffoni', zone:'Sud', address:'Villaggio Sereno trav. XII', days:[1,5], timeStart:'08:30', timeEnd:'09:30' },
   { id:18, name:'Pilates', park:'Parco Pescheto', zone:'Sud', address:'Via Lamarmora/Corsica', days:[1,3], timeStart:'18:45', timeEnd:'19:45' },
-  { id:19, name:'Tai Chi', park:'Parco Martinoni', zone:'Sud', address:'Don Bosco', days:[3,5], timeStart:'09:15', timeEnd:'10:15' },
+  { id:19, name:'Tai Chi', park:'Parco Martinoni', zone:'Sud', address:'Don Bosco, Via Zara', days:[3,5], timeStart:'09:15', timeEnd:'10:15' },
   { id:20, name:'Ginnastica per Tutti', park:'Parco Via Malibran', zone:'Sud', address:'Fornaci', days:[2,5], timeStart:'18:45', timeEnd:'19:45' },
-  { id:21, name:'Ginnastica per Tutti', park:'Parco della Pace', zone:'Sud', address:'Folzano', days:[2,4], timeStart:'09:30', timeEnd:'10:30' },
+  { id:21, name:'Ginnastica per Tutti', park:'Parco della Pace', zone:'Sud', address:'Folzano, via della Cascina tesa', days:[2,4], timeStart:'09:30', timeEnd:'10:30' },
   { id:22, name:'Ginnastica per Tutti', park:'Parco Avis', zone:'Est', address:'Buffalora, Via Seriola Vescovada', days:[2,4], timeStart:'18:30', timeEnd:'19:30' },
   { id:23, name:'Pilates', park:'Parco Ragnoli', zone:'Est', address:'S. Polo Case, via Tiziano', days:[2,4], timeStart:'09:00', timeEnd:'10:00' },
   { id:24, name:'Pilates', park:'Parco Ducos 2', zone:'Est', address:'Via Lonati', days:[2,4], timeStart:'19:00', timeEnd:'20:00' },
@@ -406,18 +483,18 @@ const ACTIVITIES = [
   { id:26, name:'Tai Chi', park:'Giardini De André', zone:'Est', address:'San Polo Parco', days:[2,5], timeStart:'07:30', timeEnd:'08:30' },
   { id:27, name:'Corri e Cammina', park:'Parco Vento del Mascheda', zone:'Est', address:'Caionvico', days:[2,4], timeStart:'20:00', timeEnd:'21:00' },
   { id:28, name:'Ginnastica Posturale', park:'Parco Vento del Mascheda', zone:'Est', address:'Caionvico', days:[1,3], timeStart:'09:45', timeEnd:'10:45' },
-  { id:29, name:'Avviamento alla Canoa', park:'Parco delle Cave (Lago Canneto)', zone:'Est', address:'Via Cerca', days:[3], timeStart:'19:10', timeEnd:'20:00', notes:NOTES_WATER, link:LINKS.canoa },
-  { id:30, name:'Avviamento alla Canoa', park:'Parco delle Cave (Lago Canneto)', zone:'Est', address:'Via Cerca', days:[3], timeStart:'20:10', timeEnd:'21:00', notes:NOTES_WATER, link:LINKS.canoa },
-  { id:31, name:'SUP', park:'Parco delle Cave (Lago Canneto)', zone:'Est', address:'Via Cerca', days:[1], timeStart:'19:10', timeEnd:'20:00', notes:NOTES_WATER, link:LINKS.sup },
-  { id:32, name:'SUP', park:'Parco delle Cave (Lago Canneto)', zone:'Est', address:'Via Cerca', days:[1], timeStart:'20:10', timeEnd:'21:00', notes:NOTES_WATER, link:LINKS.sup },
-  { id:33, name:'Yoga SUP', park:'Parco delle Cave (Lago Canneto)', zone:'Est', address:'Via Cerca', days:[4], timeStart:'19:10', timeEnd:'20:00', notes:NOTES_WATER, link:LINKS.yogasup },
-  { id:34, name:'Yoga SUP', park:'Parco delle Cave (Lago Canneto)', zone:'Est', address:'Via Cerca', days:[4], timeStart:'20:10', timeEnd:'21:00', notes:NOTES_WATER, link:LINKS.yogasup },
+  { id:29, name:'Avviamento alla Canoa', park:'Parco delle Cave (Lago Canneto)', zone:'Est', address:'Via Cerca / Via Brocchi', days:[3], timeStart:'19:10', timeEnd:'20:00', notes:NOTES_WATER, link:LINKS.canoa },
+  { id:30, name:'Avviamento alla Canoa', park:'Parco delle Cave (Lago Canneto)', zone:'Est', address:'Via Cerca / Via Brocchi', days:[3], timeStart:'20:10', timeEnd:'21:00', notes:NOTES_WATER, link:LINKS.canoa },
+  { id:31, name:'SUP', park:'Parco delle Cave (Lago Canneto)', zone:'Est', address:'Via Cerca / Via Brocchi', days:[1], timeStart:'19:10', timeEnd:'20:00', notes:NOTES_WATER, link:LINKS.sup },
+  { id:32, name:'SUP', park:'Parco delle Cave (Lago Canneto)', zone:'Est', address:'Via Cerca / Via Brocchi', days:[1], timeStart:'20:10', timeEnd:'21:00', notes:NOTES_WATER, link:LINKS.sup },
+  { id:33, name:'Yoga SUP', park:'Parco delle Cave (Lago Canneto)', zone:'Est', address:'Via Cerca / Via Brocchi', days:[4], timeStart:'19:10', timeEnd:'20:00', notes:NOTES_WATER, link:LINKS.yogasup },
+  { id:34, name:'Yoga SUP', park:'Parco delle Cave (Lago Canneto)', zone:'Est', address:'Via Cerca / Via Brocchi', days:[4], timeStart:'20:10', timeEnd:'21:00', notes:NOTES_WATER, link:LINKS.yogasup },
   { id:35, name:'Pilates', park:'Parco Ducos 1', zone:'Centro', address:'Viale Venezia', days:[1,3], timeStart:'09:00', timeEnd:'10:00' },
   { id:36, name:'Vinyasa Yoga', park:'Parco Ducos 1', zone:'Centro', address:'Viale Venezia', days:[1,3], timeStart:'19:00', timeEnd:'20:00' },
   { id:37, name:'Tai Chi', park:'Viridarium Santa Giulia', zone:'Centro', address:'Via dei Musei 81/b', days:[2,4], timeStart:'09:15', timeEnd:'10:15' },
   { id:38, name:'Body Tonic', park:'Torri Gemelle', zone:'Centro', address:'Via XXV Aprile', days:[1,3], timeStart:'20:00', timeEnd:'21:00' },
   { id:39, name:'Danze Popolari', park:'Parco dell\'Acqua', zone:'Centro', address:'Largo Torrelunga 7', days:[1,3], timeStart:'20:00', timeEnd:'21:00' },
-  { id:40, name:'Acro-Yoga', park:'Parco Sant\'Antonino', zone:'Centro', address:'Borgo Trento', days:[2,4], timeStart:'18:00', timeEnd:'19:00' },
+  { id:40, name:'Acro-Yoga', park:'Parco Sant\'Antonino', zone:'Centro', address:'Borgo Trento, Via Marconi', days:[2,4], timeStart:'18:00', timeEnd:'19:00' },
   { id:101, name:'Trekking ed Ambiente', park:'Sentiero delle Pozze in Maddalena', zone:'Nord', address:'Piazzale Ristorante Le Cavrelle', exactDates:['2026-06-03'], timeStart:'19:30', timeEnd:'21:30', notes:NOTES_TREKK, link:LINKS.trekking },
   { id:102, name:'Trekking ed Ambiente', park:'Da Torricella ai Campiani', zone:'Ovest', address:'Parcheggio Ristorante Il Melograno', exactDates:['2026-06-13'], timeStart:'07:30', timeEnd:'09:30', notes:NOTES_TREKK, link:LINKS.trekking },
   { id:103, name:'Trekking ed Ambiente', park:'Su e giù dal Castello di Brescia', zone:'Centro', address:'Piazza Arnaldo', exactDates:['2026-06-17'], timeStart:'19:30', timeEnd:'21:30', notes:NOTES_TREKK, link:LINKS.trekking },
@@ -443,10 +520,9 @@ function getDistance(lat1, lon1, lat2, lon2) {
   const R = 6371; const dLat = (lat2-lat1)*Math.PI/180; const dLon = (lon2-lon1)*Math.PI/180;
   const a = Math.sin(dLat/2)*Math.sin(dLat/2) + Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLon/2)*Math.sin(dLon/2);
   const straight = R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-  return straight * 1.45;
+  return straight * 1.6; // Moltiplicatore ritarato per stima urbana (circa 60% deviazione strade)
 }
 
-// Nuova logica di geocoding con Fallback (Pulisce CAP e Sigle Provincia)
 async function fetchGeocode(query, limit = 10) {
   try {
     let url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&countrycodes=it&addressdetails=1&limit=${limit}`;
@@ -454,7 +530,6 @@ async function fetchGeocode(query, limit = 10) {
     let data = await res.json();
     if (data && data.length > 0) return data;
     
-    // Fallback: Rimuovo CAP (numeri di 5 cifre), parentesi e sigle classiche di provincia
     let fallbackQuery = query.replace(/\b\d{5}\b/g, '').replace(/\bBS\b/ig, '').replace(/[(),]/g, ' ').replace(/\s+/g, ' ').trim();
     if (fallbackQuery !== query && fallbackQuery.length > 3) {
       let urlFb = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(fallbackQuery)}&countrycodes=it&addressdetails=1&limit=${limit}`;
@@ -462,7 +537,7 @@ async function fetchGeocode(query, limit = 10) {
       let dataFb = await resFb.json();
       return dataFb;
     }
-  } catch (e) { console.error(e); }
+  } catch (e) {}
   return [];
 }
 
@@ -508,9 +583,7 @@ function debounceSearch(query, source) {
         box.appendChild(div);
       });
       
-      if(unique.length === 0) {
-         box.innerHTML = '<div class="suggestion-item" style="color:var(--text-light)">Indirizzo non preciso, prova ad aggiungere la città</div>';
-      }
+      if(unique.length === 0) box.innerHTML = '<div class="suggestion-item" style="color:var(--text-light)">Indirizzo non preciso, prova ad aggiungere la città</div>';
       box.style.display = 'block';
     } else {
       box.innerHTML = '<div class="suggestion-item" style="color:var(--text-light)">Nessun indirizzo trovato</div>';
@@ -596,7 +669,6 @@ function closeSettings(e) {
   if (e && e.target !== document.getElementById('settings-overlay')) return;
   document.getElementById('settings-overlay').classList.remove('open');
 }
-
 function forceAppUpdate() {
   const url = new URL(window.location.href);
   url.searchParams.set('v', new Date().getTime());
@@ -641,6 +713,13 @@ function switchPage(name) {
   if (name === 'history') renderHistory();
 }
 
+function switchTab(tabId, el) {
+  document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById(tabId).classList.add('active');
+}
+
 // TIMELINE & FILTERS
 function toggleFilters() {
   const f = document.getElementById('advanced-filters'); const b = document.getElementById('btn-toggle-filters');
@@ -678,16 +757,13 @@ function refreshDropdowns() {
     if (checkZone !== 'all' && act.zone !== checkZone) return false;
     if (checkPark !== 'all' && act.park !== checkPark) return false;
     if (checkAct !== 'all' && act.name !== checkAct) return false;
-    
     let dist = null;
     if (state.coords && PARK_COORDS[act.park]) {
       dist = getDistance(state.coords.lat, state.coords.lon, PARK_COORDS[act.park][0], PARK_COORDS[act.park][1]);
     }
     if (checkDist !== 'all' && (dist === null || dist > parseInt(checkDist))) return false;
-
     if (checkDate !== 'all') {
-      let hasDate = false;
-      getOccurrences(act).forEach(d => { if (formatDate(d) === checkDate) hasDate = true; });
+      let hasDate = false; getOccurrences(act).forEach(d => { if (formatDate(d) === checkDate) hasDate = true; });
       if (!hasDate) return false;
     }
     return true;
@@ -698,58 +774,41 @@ function refreshDropdowns() {
 
   ACTIVITIES.forEach(act => {
     let dist = null;
-    if (state.coords && PARK_COORDS[act.park]) {
-      dist = getDistance(state.coords.lat, state.coords.lon, PARK_COORDS[act.park][0], PARK_COORDS[act.park][1]);
-    }
+    if (state.coords && PARK_COORDS[act.park]) dist = getDistance(state.coords.lat, state.coords.lon, PARK_COORDS[act.park][0], PARK_COORDS[act.park][1]);
     if (matches(act, state.filterDate, 'all', state.filterPark, state.filterAct, state.filterDist)) validZones.add(act.zone);
     if (matches(act, state.filterDate, state.filterZone, 'all', state.filterAct, state.filterDist)) validParks.add(act.park);
     if (matches(act, state.filterDate, state.filterZone, state.filterPark, 'all', state.filterDist)) validActs.add(act.name);
     if (matches(act, state.filterDate, state.filterZone, state.filterPark, state.filterAct, 'all')) {
-      if (dist !== null) {
-        if (dist <= 3) hasD3 = true;
-        if (dist <= 5) hasD5 = true;
-        if (dist <= 10) hasD10 = true;
-      }
+      if (dist !== null) { if (dist <= 3) hasD3 = true; if (dist <= 5) hasD5 = true; if (dist <= 10) hasD10 = true; }
     }
   });
 
-  const zoneSel = document.getElementById('filter-zone');
-  zoneSel.innerHTML = '<option value="all">Tutte le Zone</option>';
+  const zoneSel = document.getElementById('filter-zone'); zoneSel.innerHTML = '<option value="all">Tutte le Zone</option>';
   [...validZones].sort().forEach(z => zoneSel.innerHTML += `<option value="${z}" ${state.filterZone===z?'selected':''}>Zona ${z}</option>`);
   if (!validZones.has(state.filterZone) && state.filterZone !== 'all') { state.filterZone = 'all'; zoneSel.value = 'all'; }
 
-  const parkSel = document.getElementById('filter-park');
-  parkSel.innerHTML = '<option value="all">Tutti i Parchi</option>';
+  const parkSel = document.getElementById('filter-park'); parkSel.innerHTML = '<option value="all">Tutti i Parchi</option>';
   [...validParks].sort().forEach(p => parkSel.innerHTML += `<option value="${p}" ${state.filterPark===p?'selected':''}>${p}</option>`);
   if (!validParks.has(state.filterPark) && state.filterPark !== 'all') { state.filterPark = 'all'; parkSel.value = 'all'; }
 
-  const actSel = document.getElementById('filter-acts');
-  actSel.innerHTML = '<option value="all">Tutti gli Sport</option>';
+  const actSel = document.getElementById('filter-acts'); actSel.innerHTML = '<option value="all">Tutti gli Sport</option>';
   [...validActs].sort().forEach(a => actSel.innerHTML += `<option value="${a}" ${state.filterAct===a?'selected':''}>${a}</option>`);
   if (!validActs.has(state.filterAct) && state.filterAct !== 'all') { state.filterAct = 'all'; actSel.value = 'all'; }
 
-  const distSel = document.getElementById('filter-dist');
-  distSel.innerHTML = '<option value="all">Qualsiasi Distanza</option>';
+  const distSel = document.getElementById('filter-dist'); distSel.innerHTML = '<option value="all">Qualsiasi Distanza</option>';
   if (!state.coords) {
-    distSel.disabled = true;
-    distSel.innerHTML = '<option value="all">Inserisci indirizzo nelle impostazioni</option>';
-    state.filterDist = 'all';
+    distSel.disabled = true; distSel.innerHTML = '<option value="all">Indirizzo non impostato</option>'; state.filterDist = 'all';
   } else {
     distSel.disabled = false;
     if (hasD3) distSel.innerHTML += `<option value="3" ${state.filterDist==='3'?'selected':''}>Meno di 3 km</option>`;
     if (hasD5) distSel.innerHTML += `<option value="5" ${state.filterDist==='5'?'selected':''}>Meno di 5 km</option>`;
     if (hasD10) distSel.innerHTML += `<option value="10" ${state.filterDist==='10'?'selected':''}>Meno di 10 km</option>`;
-    
     const validDist = (state.filterDist === '3' && hasD3) || (state.filterDist === '5' && hasD5) || (state.filterDist === '10' && hasD10) || state.filterDist === 'all';
     if (!validDist) { state.filterDist = 'all'; distSel.value = 'all'; }
   }
 }
 
-function updateFilters(type, val) {
-  state['filter'+type.charAt(0).toUpperCase() + type.slice(1)] = val;
-  refreshDropdowns();
-  renderList();
-}
+function updateFilters(type, val) { state['filter'+type.charAt(0).toUpperCase() + type.slice(1)] = val; refreshDropdowns(); renderList(); }
 
 function renderList() {
   const list = document.getElementById('activities-list'); list.innerHTML = '';
@@ -757,9 +816,7 @@ function renderList() {
   
   ACTIVITIES.forEach(act => {
     let actDist = null;
-    if (state.coords && PARK_COORDS[act.park]) {
-      actDist = getDistance(state.coords.lat, state.coords.lon, PARK_COORDS[act.park][0], PARK_COORDS[act.park][1]);
-    }
+    if (state.coords && PARK_COORDS[act.park]) actDist = getDistance(state.coords.lat, state.coords.lon, PARK_COORDS[act.park][0], PARK_COORDS[act.park][1]);
     
     getOccurrences(act).forEach(d => {
       const dStr = formatDate(d);
@@ -769,7 +826,6 @@ function renderList() {
       if (state.filterPark !== 'all' && act.park !== state.filterPark) return;
       if (state.filterAct !== 'all' && act.name !== state.filterAct) return;
       if (state.filterDist !== 'all' && actDist !== null && actDist > parseInt(state.filterDist)) return;
-      
       items.push({ act, dStr, d, actDist });
     });
   });
@@ -800,10 +856,7 @@ function renderList() {
     card.className = `act-card ${colorClass}`;
     card.innerHTML = `
       <div class="act-card-body" onclick="openModal(${act.id},'${dStr}', ${actDist})">
-        <div class="act-card-top">
-          <div class="act-name">${act.name}</div>
-          <div style="display:flex;gap:6px;align-items:center;">${distText}<div class="act-time-badge">${act.timeStart}</div></div>
-        </div>
+        <div class="act-card-top"><div class="act-name">${act.name}</div><div style="display:flex;gap:6px;align-items:center;">${distText}<div class="act-time-badge">${act.timeStart}</div></div></div>
         <div class="act-park"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg> ${act.park}</div>
       </div>
       <div class="act-card-bookmark ${saved?'saved':''}" onclick="event.stopPropagation();quickSave(${act.id},'${dStr}',this)">
@@ -812,12 +865,12 @@ function renderList() {
     `;
     list.appendChild(card);
   });
+  
+  // Scroll to top
+  document.getElementById('page-activities').scrollTop = 0;
 }
 
-function quickSave(id, dStr, el) {
-  toggleSave(id, dStr); const s = isSaved(id, dStr); el.classList.toggle('saved', s);
-  showToast(s ? 'Aggiunto al calendario!' : 'Rimosso dal calendario');
-}
+function quickSave(id, dStr, el) { toggleSave(id, dStr); const s = isSaved(id, dStr); el.classList.toggle('saved', s); showToast(s ? 'Aggiunto al calendario!' : 'Rimosso dal calendario'); }
 
 // MODAL SCHEDA ATTIVITÀ
 function openModal(id, dStr, actDist) {
@@ -830,7 +883,8 @@ function openModal(id, dStr, actDist) {
   
   const mapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(act.park+', '+act.address+', Brescia')}`;
   const distHtml = actDist ? `<div class="modal-desc" style="margin-bottom:8px"><strong>~${actDist.toFixed(1)} km</strong> da casa tua</div>` : `<div class="modal-desc" style="margin-bottom:8px">${act.address}</div>`;
-  
+  const meetingHtml = MEETING_POINTS[act.park] ? `<div class="meeting-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/></svg><div><strong>Ritrovo esatto:</strong><br>${MEETING_POINTS[act.park]}</div></div>` : '';
+
   let html = `
     <div class="modal-row"><svg class="modal-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
       <div><div class="modal-label">Data e Ora</div><div class="modal-value">${dStr.split('-').reverse().join('/')}</div><div class="modal-desc" style="color:var(--text); font-weight:700;">${act.timeStart} – ${act.timeEnd}</div></div></div>
@@ -838,10 +892,8 @@ function openModal(id, dStr, actDist) {
       <div><div class="modal-label">Info Attività</div><div class="modal-value">${act.name}</div><div class="modal-desc">${DESCRIPTIONS[act.name]||''}</div></div></div>
     <div class="modal-row"><svg class="modal-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
       <div><div class="modal-label">Luogo (Zona ${act.zone})</div><div class="modal-value">${act.park}</div>${distHtml}
-        <a class="modal-maps-btn" href="${mapsUrl}" target="_blank">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
-          Apri in Maps
-        </a>
+        <a class="modal-maps-btn" href="${mapsUrl}" target="_blank"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg> Apri in Maps</a>
+        ${meetingHtml}
       </div>
     </div>
   `;
@@ -850,10 +902,8 @@ function openModal(id, dStr, actDist) {
 
   let btns = '';
   if (act.link) btns += `<a href="${act.link}" target="_blank" class="action-btn btn-book">✍️ Prenota su Form</a>`;
-  
   if (saved) btns += `<button class="action-btn btn-remove" onclick="removeSaveFromModal()">Rimuovi dal Calendario</button>`;
   else btns += `<button class="action-btn btn-save" onclick="addSaveFromModal()">+ Aggiungi al Calendario</button>`;
-  
   if (done) btns += `<button class="action-btn btn-remove" style="color:#e65100; border-color:#ffe0b2" onclick="removeDoneFromModal()">Rimuovi dallo Storico Completate</button>`;
 
   document.getElementById('modal-actions-container').innerHTML = btns;
@@ -946,13 +996,18 @@ function renderHistory() {
   let timeStr = '';
   if (h > 0) timeStr += `${h}h `;
   if (m > 0 || h === 0) timeStr += `${m}m`;
-  timeStr = timeStr.trim();
+  timeStr = timeStr.trim() || '0m';
+  
+  const uniqueSports = new Set(items.map(i=>i.act.name)).size;
+  const uniqueParks = new Set(items.map(i=>i.act.park)).size;
 
   wrap.innerHTML = `<div class="hist-stats">
-    <div class="hist-stat"><div class="hist-stat-num">${items.length}</div><div class="hist-stat-label">Sessioni</div></div><div class="hist-divider"></div>
+    <div class="hist-stat" onclick="showStatModal('sports')"><div class="hist-stat-num">${uniqueSports}</div><div class="hist-stat-label">Sport Provati</div></div><div class="hist-divider"></div>
     <div class="hist-stat"><div class="hist-stat-num" style="font-size:1.5rem; white-space:nowrap; padding-top:4px;">${timeStr}</div><div class="hist-stat-label">Di Sport</div></div><div class="hist-divider"></div>
-    <div class="hist-stat"><div class="hist-stat-num">${new Set(items.map(i=>i.act.park)).size}</div><div class="hist-stat-label">Parchi Vis.</div></div>
+    <div class="hist-stat" onclick="showStatModal('parks')"><div class="hist-stat-num">${uniqueParks}</div><div class="hist-stat-label">Parchi Visitati</div></div>
   </div>`;
+  
+  document.getElementById('hist-sessions-label').textContent = `Sessioni completate: ${items.length}`;
 
   if (!items.length) { list.innerHTML = `<div class="empty-msg">Nessuna attività completata. Spuntale dal Calendario per vederle qui!</div>`; return; }
 
@@ -967,6 +1022,35 @@ function renderHistory() {
     `;
     list.appendChild(el);
   });
+}
+
+function showStatModal(type) {
+  const list = document.getElementById('stat-modal-list');
+  const title = document.getElementById('stat-modal-title');
+  list.innerHTML = '';
+  
+  const doneItems = Object.entries(state.done)
+    .filter(([k,v]) => v)
+    .map(([k,v]) => ACTIVITIES.find(a=>a.id == k.split('-')[0]))
+    .filter(a=>a);
+    
+  if (type === 'sports') {
+      title.textContent = "Gli Sport che hai provato";
+      const sports = [...new Set(doneItems.map(a=>a.name))].sort();
+      if(sports.length===0) list.innerHTML = '<div class="suggestion-item">Nessuno sport provato.</div>';
+      sports.forEach(s => list.innerHTML += `<div class="suggestion-item" style="cursor:default">${s}</div>`);
+  } else if (type === 'parks') {
+      title.textContent = "I Parchi che hai visitato";
+      const parks = [...new Set(doneItems.map(a=>a.park))].sort();
+      if(parks.length===0) list.innerHTML = '<div class="suggestion-item">Nessun parco visitato.</div>';
+      parks.forEach(p => list.innerHTML += `<div class="suggestion-item" style="cursor:default">${p}</div>`);
+  }
+  document.getElementById('stat-modal-overlay').classList.add('open');
+}
+
+function closeStatModal(e) {
+  if (e && e.target !== document.getElementById('stat-modal-overlay')) return;
+  document.getElementById('stat-modal-overlay').classList.remove('open');
 }
 
 // INIT
