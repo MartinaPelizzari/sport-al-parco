@@ -15,7 +15,7 @@
   
   <style>
     :root {
-      --green: #81c784; --green-light: #c8e6c9; --green-pale: #e8f5e9; --green-dark: #4caf50; --green-deep: #1b4d22;
+      --green: #81c784; --green-light: #c8e6c9; --green-pale: #e8f5e9; --green-dark: #4caf50; --green-deep: #2e7d32;
       --accent: #ffca28; --bg: #f8fbf8; --white: #ffffff;
       --text: #1b261b; --text-mid: #4c5c4c; --text-light: #7b8d7b; --border: #e0ece0;
       --card-shadow: 0 4px 12px rgba(46, 125, 50, 0.08); --radius: 16px; --radius-sm: 10px;
@@ -77,7 +77,7 @@
     .advanced-filters.open { display: flex; }
     @keyframes slideDown { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
     
-    .filter-row-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .filter-row-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
     .filter-select { appearance: none; background: var(--white) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%234caf50' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E") no-repeat right 12px center; background-size: 16px; border: 1.5px solid var(--border); border-radius: 10px; padding: 10px 32px 10px 12px; font-family: 'Nunito', sans-serif; font-size: 0.85rem; font-weight: 700; color: var(--text); outline: none; width: 100%; text-overflow: ellipsis; }
     
     .activities-list { padding: 12px 16px 20px; display: flex; flex-direction: column; gap: 12px; }
@@ -131,7 +131,9 @@
     #welcome-overlay { position: fixed; inset: 0; background: var(--green-deep); z-index: 2000; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 20px; text-align: center; color: white; }
     .welcome-box { background: white; color: var(--text); padding: 30px 20px; border-radius: 24px; width: 100%; max-width: 380px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
     .welcome-title { font-family: 'Fraunces', serif; font-size: 1.8rem; font-weight: 900; color: var(--green-deep); margin-bottom: 10px; }
-    .sidebar-input { width: 100%; padding: 14px; border: 2px solid var(--border); border-radius: 12px; font-family: 'Nunito', sans-serif; font-size: 1rem; margin-top: 10px; outline: none; text-align: center; font-weight: 700; background: var(--bg); }
+    .input-field { width: 100%; padding: 14px; border: 2px solid var(--border); border-radius: 12px; font-family: 'Nunito', sans-serif; font-size: 1rem; margin-top: 10px; outline: none; text-align: left; font-weight: 700; background: var(--bg); transition: border-color 0.2s; }
+    .input-field:focus { border-color: var(--green-dark); }
+    .btn-primary { width: 100%; padding: 14px; background: var(--green-dark); color: white; font-family: 'Nunito', sans-serif; font-size: 1rem; font-weight: 800; border: none; border-radius: 12px; cursor: pointer; margin-top: 20px; }
 
     .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; padding: 0 16px 16px; }
     .cal-day-header { text-align: center; font-size: 0.7rem; font-weight: 800; color: var(--text-light); text-transform: uppercase; padding: 8px 0; }
@@ -163,21 +165,24 @@
     .tab-content ul { margin-left: 20px; margin-bottom: 16px; }
     .tab-content li { margin-bottom: 8px; }
 
-    .suggestion-item { padding: 12px 14px; font-size: 0.9rem; color: var(--text); border-bottom: 1px solid var(--green-pale); font-weight: 600; }
-
     #toast { position: fixed; bottom: calc(var(--nav-h) + env(safe-area-inset-bottom, 0px) + 20px); left: 50%; transform: translateX(-50%) translateY(20px); background: var(--text); color: white; padding: 12px 24px; border-radius: 30px; font-size: 0.9rem; font-weight: 800; z-index: 3000; opacity: 0; transition: all 0.3s; pointer-events: none; text-align: center; }
     #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
   </style>
 </head>
 <body>
 
-<!-- WELCOME OVERLAY -->
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('sw.js');
+  }
+</script>
+
 <div id="welcome-overlay">
   <div class="welcome-box">
     <div class="welcome-title">Benvenuto!</div>
-    <p style="font-size: 0.9rem; color: var(--text-mid); font-weight: 600; line-height: 1.4;">Personalizza l'app inserendo il tuo nome per iniziare.</p>
-    <input type="text" id="welcome-name" class="sidebar-input" placeholder="Il tuo Nome (es. Marco)" autocomplete="off">
-    <button class="btn-primary" onclick="saveUserData('welcome')" id="btn-welcome-save">Inizia</button>
+    <p style="font-size: 0.9rem; color: var(--text-mid); font-weight: 600; line-height: 1.4;">Personalizza l'app inserendo il tuo nome.</p>
+    <input type="text" id="welcome-name" class="input-field" placeholder="Il tuo Nome (es. Marco)" autocomplete="off">
+    <button class="btn-primary" onclick="saveUserData('welcome')" id="btn-welcome-save">Salva e Inizia</button>
   </div>
 </div>
 
@@ -196,7 +201,6 @@
   </div>
 
   <div id="content">
-    <!-- ESPLORA -->
     <div class="page active" id="page-activities">
       <div class="smart-filters">
         <div class="timeline-wrap" id="timeline-scroll"></div>
@@ -208,9 +212,8 @@
             <select class="filter-select" id="filter-zone" onchange="updateFilters('zone', this.value)"></select>
             <select class="filter-select" id="filter-park" onchange="updateFilters('park', this.value)"></select>
           </div>
-          <div class="filter-row-grid">
+          <div>
             <select class="filter-select" id="filter-acts" onchange="updateFilters('act', this.value)"></select>
-            <select class="filter-select" id="filter-time" onchange="updateFilters('time', this.value)"></select>
           </div>
         </div>
       </div>
@@ -222,7 +225,6 @@
       <div class="activities-list" id="activities-list"></div>
     </div>
 
-    <!-- CALENDARIO -->
     <div class="page" id="page-calendar">
       <div class="section-header">
         <div class="section-title" id="cal-title">Il Mio Calendario</div>
@@ -241,7 +243,6 @@
       </div>
     </div>
 
-    <!-- STORICO -->
     <div class="page" id="page-history">
       <div class="section-header">
         <div class="section-title" id="hist-title">I Tuoi Traguardi</div>
@@ -254,7 +255,6 @@
       <div style="padding: 0 16px;" id="hist-list"></div>
     </div>
 
-    <!-- INFO INIZIATIVA -->
     <div class="page" id="page-info">
       <div class="section-header">
         <div class="section-title">Informazioni</div>
@@ -273,8 +273,8 @@
         
         <h3>Come funziona:</h3>
         <ul>
-          <li><strong>Esplora e Filtra:</strong> Nella pagina principale puoi scorrere le date e utilizzare i filtri avanzati per trovare gli sport per Zona, Parco, Disciplina o Fascia Oraria.</li>
-          <li><strong>Il Tuo Calendario:</strong> Cliccando sull'icona del "segnalibro" in una scheda, l'attività verrà salvata nel tuo calendario personale. <br><span style="color:#ffa726; font-weight:700;">Attenzione:</span> Salvare un evento nel calendario dell'app <u>NON</u> equivale a un'iscrizione ufficiale. Serve solo come promemoria personale!</li>
+          <li><strong>Esplora e Filtra:</strong> Nella pagina principale puoi scorrere le date e utilizzare i filtri avanzati per trovare gli sport in una zona specifica.</li>
+          <li><strong>Il Tuo Calendario:</strong> Cliccando sull'icona del "segnalibro" in una scheda, l'attività verrà salvata nel tuo calendario personale. <br><span style="color:var(--accent2); font-weight:700;">Attenzione:</span> Salvare un evento nel calendario dell'app <u>NON</u> equivale a un'iscrizione ufficiale. Serve solo come promemoria personale!</li>
           <li><strong>Iscrizioni Reali:</strong> Per gli sport che richiedono una vera iscrizione (es. Canoa, SUP, Trekking), troverai un pulsante arancione "Prenota su Form" all'interno della scheda. Cliccandolo verrai rimandato ai moduli di iscrizione ufficiali di Google.</li>
           <li><strong>I tuoi Traguardi:</strong> Nel calendario puoi "spuntare" i giorni in cui hai effettivamente partecipato. L'app calcolerà in automatico le ore di sport che hai fatto e quante aree verdi hai visitato.</li>
         </ul>
@@ -313,9 +313,9 @@
         <p style="margin-top:10px; font-size:0.85rem;"><em>Contatti: Settore Partecipazione Comune di Brescia (Tel. 030 297.8272).</em></p>
       </div>
     </div>
+
   </div>
 
-  <!-- NAVBAR -->
   <nav id="navbar">
     <button class="nav-btn active" data-page="activities" onclick="switchPage('activities')">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
@@ -332,7 +332,6 @@
   </nav>
 </div>
 
-<!-- MODALE SCHEDA ATTIVITÀ -->
 <div id="modal-overlay" onclick="closeModal(event)">
   <div id="modal-sheet" onclick="event.stopPropagation()">
     <div class="modal-color-bar" id="modal-color-bar"></div>
@@ -347,7 +346,6 @@
   </div>
 </div>
 
-<!-- MODALE STATISTICHE POPUP -->
 <div id="stat-modal-overlay" onclick="closeStatModal(event)">
   <div id="stat-modal-sheet" onclick="event.stopPropagation()">
     <div class="modal-color-bar" style="background:var(--accent)"></div>
@@ -361,7 +359,6 @@
   </div>
 </div>
 
-<!-- MODALE IMPOSTAZIONI -->
 <div id="settings-overlay" onclick="closeSettings(event)">
   <div id="settings-sheet" onclick="event.stopPropagation()">
     <div class="modal-color-bar" style="background:var(--green-deep)"></div>
@@ -372,14 +369,14 @@
       <div class="modal-activity-name" style="color:var(--text)">Impostazioni</div>
       <div style="margin-bottom: 24px;">
         <label style="font-size:0.8rem; font-weight:800; color:var(--text-light); text-transform:uppercase;">Nome</label>
-        <input type="text" id="settings-name" class="sidebar-input" placeholder="Il tuo nome">
+        <input type="text" id="settings-name" class="input-field" style="margin-top:4px;" placeholder="Il tuo nome">
       </div>
       <button class="btn-primary" onclick="saveUserData('settings')" id="btn-settings-save">Salva Modifiche</button>
       
       <div style="margin-top: 30px; border-top: 1px solid var(--border); padding-top: 20px;">
         <div style="font-size:0.8rem; font-weight:800; color:var(--text-mid); margin-bottom:10px;">AGGIORNAMENTO APP</div>
         <p style="font-size:0.8rem; color:var(--text-light); margin-bottom:12px; line-height:1.4;">Forza l'aggiornamento dell'app per scaricare le ultime novità da Github (i tuoi salvataggi non andranno persi).</p>
-        <button class="action-btn" style="background:#e3f2fd; color:#1565c0; width:100%; padding: 12px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;" onclick="forceAppUpdate()">
+        <button class="action-btn" style="background:#e3f2fd; color:#1565c0; width:100%;" onclick="forceAppUpdate()">
           <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2v6h-6"/><path d="M3 12a9 9 0 109-9 9.75 9.75 0 00-6.74 2.74L3 8"/><path d="M3 2v6h6"/></svg>
           Sincronizza Aggiornamenti
         </button>
@@ -391,6 +388,9 @@
 <div id="toast"></div>
 
 <script>
+// ═══════════════════════════════════════════════
+// SETUP E DATI
+// ═══════════════════════════════════════════════
 const START = new Date(2026, 5, 1);
 const END   = new Date(2026, 7, 1);
 let TODAY = new Date();
@@ -411,12 +411,12 @@ const DESCRIPTIONS = {
   'Avviamento alla Canoa': 'Rilassati immerso nella natura praticando una disciplina sportiva olimpionica.',
   'Trekking ed Ambiente': 'Camminate naturalistiche nel Parco delle Colline. Un tuffo settimanale nella natura.',
   'SUP': 'Si rema in piedi su una tavola, simile a quella da surf, utilizzando una pagaia. Combina canoa e surf.',
-  'Yoga SUP': 'Trasformando il lago in palestra e il Sup in tappetino. Sviluppa equilibrio e calma interiore sull'acqua.',
-  'Disc Golf': 'Regole simili a quelle del golf tradicional, ma con dischi (frisbee) e bersagli a cesto.',
+  'Yoga SUP': 'Trasformando il lago in palestra e il Sup in tappetino. Sviluppa equilibrio e calma interiore sull\'acqua.',
+  'Disc Golf': 'Regole simili a quelle del golf tradizionale, ma con dischi (frisbee) e bersagli a cesto.',
   'Danze Popolari': 'Danze folcloristiche come forma d’arte popolare e attività fisica per favorire la socializzazione.',
   'Ginnastica Posturale': 'Mirata al corretto allineamento della colonna vertebrale e al benessere della schiena.',
   'Body Tonic': 'Allenamento completo e tonificante per sviluppare forza e resistenza.',
-  'Acro-Yoga': 'Disciplina che unisce lo yoga e l'acrobatica, da praticare in coppia per sviluppare fiducia ed equilibrio.'
+  'Acro-Yoga': 'Disciplina che unisce lo yoga e l\'acrobatica, da praticare in coppia per sviluppare fiducia ed equilibrio.'
 };
 
 const NOTES_WATER = "<strong>Attenzione - Regole di Partecipazione:</strong><ul><li>Portare un cambio completo (costume, calzoncini, maglietta, calzature bagnabili, accappatoio).</li><li>Sarà richiesta la compilazione di una dichiarazione di abilità al nuoto.</li><li>Età minima partecipanti: 9 anni.</li><li>Consentita l'iscrizione a 1 sola prova (le successive verranno annullate).</li></ul><em>Info WhatsApp: 351/9026023 (risposta in 24h)</em>";
@@ -456,9 +456,9 @@ const MEETING_POINTS = {
   'Giardini De André': 'Via Tiziano, San Polo Parco (presso piastra basket)',
   'Parco Vento del Mascheda': 'Via Sant’Orsola 138, Caionvico',
   'Parco delle Cave (Lago Canneto)': 'Via Cerca (cancello ingresso Lago Canneto) o Via Brocchi (Canoa/SUP)',
-  'Parco dell'Acqua': 'Largo Torrelunga 7 (vicino ai giochi per i bambini)',
+  'Parco dell\'Acqua': 'Largo Torrelunga 7 (vicino ai giochi per i bambini)',
   'Torri Gemelle': 'Via XXV Aprile / Spalti San Marco (sul vialetto centrale)',
-  'Parco Sant'Antonino': 'Via Marconi (presso ingresso Metropolitana)',
+  'Parco Sant\'Antonino': 'Via Marconi (presso ingresso Metropolitana)',
   'Viridarium Santa Giulia': 'Via dei Musei 81/b (ingresso aperto fino alle 9)',
   'Sentiero delle Pozze in Maddalena': 'Via della Maddalena, 70 (Piazzale Ristorante Le Cavrelle)',
   'Da Torricella ai Campiani': 'Via Valle Bresciana (Parcheggio Ristorante Il Melograno)',
@@ -471,59 +471,123 @@ const MEETING_POINTS = {
 };
 
 const ACTIVITIES = [
-  { id:1, name:'Pilates', park:'Parco Castelli', zone:'Nord', days:[2,4], timeStart:'20:00', timeEnd:'21:00' },
-  { id:2, name:'Allenamento Funzionale', park:'Parco Corridoni', zone:'Nord', days:[2,4], timeStart:'19:00', timeEnd:'20:00' },
-  { id:3, name:'Tai Chi', park:'Parco Jan Palach', zone:'Nord', days:[1,3], timeStart:'20:30', timeEnd:'21:30' },
-  { id:4, name:'Ginnastica per Tutti', park:'Parco Belvedere', zone:'Nord', days:[3,5], timeStart:'09:00', timeEnd:'10:00' },
-  { id:5, name:'Tai Chi', park:'Parco Casazza', zone:'Nord', days:[2,4], timeStart:'19:00', timeEnd:'20:00' },
-  { id:6, name:'Pilates', park:'Parco Marcolini (Ori Martin)', zone:'Nord', days:[2,4], timeStart:'09:00', timeEnd:'10:00' },
-  { id:7, name:'Disc Golf', park:'Parco Marcolini (Ori Martin)', zone:'Nord', days:[3,5], timeStart:'17:00', timeEnd:'19:00' },
-  { id:8, name:'Pilates', park:'Parco Torricella di Sotto', zone:'Ovest', days:[2,4], timeStart:'20:15', timeEnd:'21:15' },
-  { id:9, name:'Ginnastica per Tutti', park:'Parco delle Stagioni', zone:'Ovest', days:[2,4], timeStart:'09:00', timeEnd:'10:00' },
-  { id:10, name:'Ginnastica Posturale', park:'Parco delle Stagioni', zone:'Ovest', days:[1,3], timeStart:'20:00', timeEnd:'21:00' },
-  { id:11, name:'Vinyasa Yoga', park:'Parco dei Poeti', zone:'Ovest', days:[3,5], timeStart:'08:00', timeEnd:'09:00' },
-  { id:12, name:'Allenamento Funzionale', park:'Parco Maggiolini', zone:'Ovest', days:[1,3], timeStart:'20:00', timeEnd:'21:00' },
-  { id:13, name:'Ginnastica per Tutti', park:'Parco Marcolini (Violino)', zone:'Ovest', days:[2,4], timeStart:'08:30', timeEnd:'09:30' },
-  { id:14, name:'Pilates', park:'Parco Frugoni', zone:'Ovest', days:[3,5], timeStart:'19:00', timeEnd:'20:00' },
-  { id:15, name:'Vinyasa Yoga', park:'Parco Basaglia', zone:'Sud', days:[2,4], timeStart:'08:00', timeEnd:'09:00' },
-  { id:16, name:'Vinyasa Yoga', park:'Giardini Via Fura', zone:'Sud', days:[2,4], timeStart:'20:00', timeEnd:'21:00' },
-  { id:17, name:'Ginnastica per Tutti', park:'Parco Giffoni', zone:'Sud', days:[1,5], timeStart:'08:30', timeEnd:'09:30' },
-  { id:18, name:'Pilates', park:'Parco Pescheto', zone:'Sud', days:[1,3], timeStart:'18:45', timeEnd:'19:45' },
-  { id:19, name:'Tai Chi', park:'Parco Martinoni', zone:'Sud', days:[3,5], timeStart:'09:15', timeEnd:'10:15' },
-  { id:20, name:'Ginnastica per Tutti', park:'Parco Via Malibran', zone:'Sud', days:[2,5], timeStart:'18:45', timeEnd:'19:45' },
-  { id:21, name:'Ginnastica per Tutti', park:'Parco della Pace', zone:'Sud', days:[2,4], timeStart:'09:30', timeEnd:'10:30' },
-  { id:22, name:'Ginnastica per Tutti', park:'Parco Avis', zone:'Est', days:[2,4], timeStart:'18:30', timeEnd:'19:30' },
-  { id:23, name:'Pilates', park:'Parco Ragnoli', zone:'Est', days:[2,4], timeStart:'09:00', timeEnd:'10:00' },
-  { id:24, name:'Pilates', park:'Parco Ducos 2', zone:'Est', days:[2,4], timeStart:'19:00', timeEnd:'20:00' },
-  { id:25, name:'Ginnastica per Tutti', park:'Parco Ducos 2', zone:'Est', days:[1,4], timeStart:'08:30', timeEnd:'09:30' },
-  { id:26, name:'Tai Chi', park:'Giardini De André', zone:'Est', days:[2,5], timeStart:'07:30', timeEnd:'08:30' },
-  { id:27, name:'Corri e Cammina', park:'Parco Vento del Mascheda', zone:'Est', days:[2,4], timeStart:'20:00', timeEnd:'21:00' },
-  { id:28, name:'Ginnastica Posturale', park:'Parco Vento del Mascheda', zone:'Est', days:[1,3], timeStart:'09:45', timeEnd:'10:45' },
-  { id:29, name:'Avviamento alla Canoa', park:'Parco delle Cave (Lago Canneto)', zone:'Est', days:[3], timeStart:'19:10', timeEnd:'20:00', notes:NOTES_WATER, link:LINKS.canoa },
-  { id:30, name:'Avviamento alla Canoa', park:'Parco delle Cave (Lago Canneto)', zone:'Est', days:[3], timeStart:'20:10', timeEnd:'21:00', notes:NOTES_WATER, link:LINKS.canoa },
-  { id:31, name:'SUP', park:'Parco delle Cave (Lago Canneto)', zone:'Est', days:[1], timeStart:'19:10', timeEnd:'20:00', notes:NOTES_WATER, link:LINKS.sup },
-  { id:32, name:'SUP', park:'Parco delle Cave (Lago Canneto)', zone:'Est', days:[1], timeStart:'20:10', timeEnd:'21:00', notes:NOTES_WATER, link:LINKS.sup },
-  { id:33, name:'Yoga SUP', park:'Parco delle Cave (Lago Canneto)', zone:'Est', days:[4], timeStart:'19:10', timeEnd:'20:00', notes:NOTES_WATER, link:LINKS.yogasup },
-  { id:34, name:'Yoga SUP', park:'Parco delle Cave (Lago Canneto)', zone:'Est', address:'Via Cerca', days:[4], timeStart:'20:10', timeEnd:'21:00', notes:NOTES_WATER, link:LINKS.yogasup },
-  { id:35, name:'Pilates', park:'Parco Ducos 1', zone:'Centro', days:[1,3], timeStart:'09:00', timeEnd:'10:00' },
-  { id:36, name:'Vinyasa Yoga', park:'Parco Ducos 1', zone:'Centro', days:[1,3], timeStart:'19:00', timeEnd:'20:00' },
-  { id:37, name:'Tai Chi', park:'Viridarium Santa Giulia', zone:'Centro', days:[2,4], timeStart:'09:15', timeEnd:'10:15' },
-  { id:38, name:'Body Tonic', park:'Torri Gemelle', zone:'Centro', days:[1,3], timeStart:'20:00', timeEnd:'21:00' },
-  { id:39, name:'Danze Popolari', park:'Parco dell'Acqua', zone:'Centro', days:[1,3], timeStart:'20:00', timeEnd:'21:00' },
-  { id:40, name:'Acro-Yoga', park:'Parco Sant'Antonino', zone:'Centro', days:[2,4], timeStart:'18:00', timeEnd:'19:00' },
-  { id:101, name:'Trekking ed Ambiente', park:'Sentiero delle Pozze in Maddalena', zone:'Nord', exactDates:['2026-06-03'], timeStart:'19:30', timeEnd:'21:30', notes:NOTES_TREKK, link:LINKS.trekking },
-  { id:102, name:'Trekking ed Ambiente', park:'Da Torricella ai Campiani', zone:'Ovest', exactDates:['2026-06-13'], timeStart:'07:30', timeEnd:'09:30', notes:NOTES_TREKK, link:LINKS.trekking },
-  { id:103, name:'Trekking ed Ambiente', park:'Su e giù dal Castello di Brescia', zone:'Centro', exactDates:['2026-06-17'], timeStart:'19:30', timeEnd:'21:30', notes:NOTES_TREKK, link:LINKS.trekking },
-  { id:104, name:'Trekking ed Ambiente', park:'Dal Polivalente al Monte Peso', zone:'Ovest', exactDates:['2026-06-27'], timeStart:'07:30', timeEnd:'09:30', notes:NOTES_TREKK, link:LINKS.trekking },
-  { id:105, name:'Trekking ed Ambiente', park:'Giro della Collina di S. Anna', zone:'Ovest', exactDates:['2026-07-04'], timeStart:'07:30', timeEnd:'09:30', notes:NOTES_TREKK, link:LINKS.trekking },
-  { id:106, name:'Trekking ed Ambiente', park:'Dal Parco Castelli sulla Green Way', zone:'Nord', exactDates:['2026-07-11'], timeStart:'07:30', timeEnd:'11:30', notes:NOTES_TREKK + " Escursione lunga (18-20km).", link:LINKS.trekking },
-  { id:107, name:'Trekking ed Ambiente', park:'Il Sentiero della Resistenza in Maddalena', zone:'Nord', exactDates:['2026-07-18'], timeStart:'07:30', timeEnd:'09:30', notes:NOTES_TREKK, link:LINKS.trekking },
-  { id:108, name:'Trekking ed Ambiente', park:'Il Mella dal Polivalente a Collebeato', zone:'Ovest', exactDates:['2026-07-22'], timeStart:'07:30', timeEnd:'09:30', notes:NOTES_TREKK, link:LINKS.trekking }
+  { id:1, name:'Pilates', park:'Parco Castelli', zone:'Nord', address:'Via Benedetto Castelli', days:[2,4], timeStart:'20:00', timeEnd:'21:00' },
+  { id:2, name:'Allenamento Funzionale', park:'Parco Corridoni', zone:'Nord', address:'Via Corridoni', days:[2,4], timeStart:'19:00', timeEnd:'20:00' },
+  { id:3, name:'Tai Chi', park:'Parco Jan Palach', zone:'Nord', address:'Via Tommaseo', days:[1,3], timeStart:'20:30', timeEnd:'21:30' },
+  { id:4, name:'Ginnastica per Tutti', park:'Parco Belvedere', zone:'Nord', address:'Via GB Scarella', days:[3,5], timeStart:'09:00', timeEnd:'10:00' },
+  { id:5, name:'Tai Chi', park:'Parco Casazza', zone:'Nord', address:'Via Reggio', days:[2,4], timeStart:'19:00', timeEnd:'20:00' },
+  { id:6, name:'Pilates', park:'Parco Marcolini (Ori Martin)', zone:'Nord', address:'Via Monte Nevoso', days:[2,4], timeStart:'09:00', timeEnd:'10:00' },
+  { id:7, name:'Disc Golf', park:'Parco Marcolini (Ori Martin)', zone:'Nord', address:'Via Monte Nevoso', days:[3,5], timeStart:'17:00', timeEnd:'19:00' },
+  { id:8, name:'Pilates', park:'Parco Torricella di Sotto', zone:'Ovest', address:'Via Torricella di Sotto', days:[2,4], timeStart:'20:15', timeEnd:'21:15' },
+  { id:9, name:'Ginnastica per Tutti', park:'Parco delle Stagioni', zone:'Ovest', address:'Via Collebeato 18', days:[2,4], timeStart:'09:00', timeEnd:'10:00' },
+  { id:10, name:'Ginnastica Posturale', park:'Parco delle Stagioni', zone:'Ovest', address:'Via Collebeato 18', days:[1,3], timeStart:'20:00', timeEnd:'21:00' },
+  { id:11, name:'Vinyasa Yoga', park:'Parco dei Poeti', zone:'Ovest', address:'Via I^ Villaggio Badia', days:[3,5], timeStart:'08:00', timeEnd:'09:00' },
+  { id:12, name:'Allenamento Funzionale', park:'Parco Maggiolini', zone:'Ovest', address:'Via Passo Gavia', days:[1,3], timeStart:'20:00', timeEnd:'21:00' },
+  { id:13, name:'Ginnastica per Tutti', park:'Parco Marcolini (Violino)', zone:'Ovest', address:'Villaggio Violino', days:[2,4], timeStart:'08:30', timeEnd:'09:30' },
+  { id:14, name:'Pilates', park:'Parco Frugoni', zone:'Ovest', address:'Viale Caduti del Lavoro', days:[3,5], timeStart:'19:00', timeEnd:'20:00' },
+  { id:15, name:'Vinyasa Yoga', park:'Parco Basaglia', zone:'Sud', address:'Viale Duca degli Abruzzi', days:[2,4], timeStart:'08:00', timeEnd:'09:00' },
+  { id:16, name:'Vinyasa Yoga', park:'Giardini Via Fura', zone:'Sud', address:'Via Fura', days:[2,4], timeStart:'20:00', timeEnd:'21:00' },
+  { id:17, name:'Ginnastica per Tutti', park:'Parco Giffoni', zone:'Sud', address:'Traversa XII, Villaggio Sereno', days:[1,5], timeStart:'08:30', timeEnd:'09:30' },
+  { id:18, name:'Pilates', park:'Parco Pescheto', zone:'Sud', address:'Via Lamarmora / Via Corsica', days:[1,3], timeStart:'18:45', timeEnd:'19:45' },
+  { id:19, name:'Tai Chi', park:'Parco Martinoni', zone:'Sud', address:'Via Zara', days:[3,5], timeStart:'09:15', timeEnd:'10:15' },
+  { id:20, name:'Ginnastica per Tutti', park:'Parco Via Malibran', zone:'Sud', address:'Via Malibran', days:[2,5], timeStart:'18:45', timeEnd:'19:45' },
+  { id:21, name:'Ginnastica per Tutti', park:'Parco della Pace', zone:'Sud', address:'Via della Cascina Tesa', days:[2,4], timeStart:'09:30', timeEnd:'10:30' },
+  { id:22, name:'Ginnastica per Tutti', park:'Parco Avis', zone:'Est', address:'Via Seriola Vescovada', days:[2,4], timeStart:'18:30', timeEnd:'19:30' },
+  { id:23, name:'Pilates', park:'Parco Ragnoli', zone:'Est', address:'Via Violante', days:[2,4], timeStart:'09:00', timeEnd:'10:00' },
+  { id:24, name:'Pilates', park:'Parco Ducos 2', zone:'Est', address:'Via Lonati', days:[2,4], timeStart:'19:00', timeEnd:'20:00' },
+  { id:25, name:'Ginnastica per Tutti', park:'Parco Ducos 2', zone:'Est', address:'Via Lonati', days:[1,4], timeStart:'08:30', timeEnd:'09:30' },
+  { id:26, name:'Tai Chi', park:'Giardini De André', zone:'Est', address:'Via Tiziano', days:[2,5], timeStart:'07:30', timeEnd:'08:30' },
+  { id:27, name:'Corri e Cammina', park:'Parco Vento del Mascheda', zone:'Est', address:'Via Sant’Orsola 138', days:[2,4], timeStart:'20:00', timeEnd:'21:00' },
+  { id:28, name:'Ginnastica Posturale', park:'Parco Vento del Mascheda', zone:'Est', address:'Via Sant’Orsola 138', days:[1,3], timeStart:'09:45', timeEnd:'10:45' },
+  { id:29, name:'Avviamento alla Canoa', park:'Parco delle Cave (Lago Canneto)', zone:'Est', address:'Via Brocchi / Via Cerca', days:[3], timeStart:'19:10', timeEnd:'20:00', notes:NOTES_WATER, link:LINKS.canoa },
+  { id:30, name:'Avviamento alla Canoa', park:'Parco delle Cave (Lago Canneto)', zone:'Est', address:'Via Brocchi / Via Cerca', days:[3], timeStart:'20:10', timeEnd:'21:00', notes:NOTES_WATER, link:LINKS.canoa },
+  { id:31, name:'SUP', park:'Parco delle Cave (Lago Canneto)', zone:'Est', address:'Via Brocchi / Via Cerca', days:[1], timeStart:'19:10', timeEnd:'20:00', notes:NOTES_WATER, link:LINKS.sup },
+  { id:32, name:'SUP', park:'Parco delle Cave (Lago Canneto)', zone:'Est', address:'Via Brocchi / Via Cerca', days:[1], timeStart:'20:10', timeEnd:'21:00', notes:NOTES_WATER, link:LINKS.sup },
+  { id:33, name:'Yoga SUP', park:'Parco delle Cave (Lago Canneto)', zone:'Est', address:'Via Brocchi / Via Cerca', days:[4], timeStart:'19:10', timeEnd:'20:00', notes:NOTES_WATER, link:LINKS.yogasup },
+  { id:34, name:'Yoga SUP', park:'Parco delle Cave (Lago Canneto)', zone:'Est', address:'Via Brocchi / Via Cerca', days:[4], timeStart:'20:10', timeEnd:'21:00', notes:NOTES_WATER, link:LINKS.yogasup },
+  { id:35, name:'Pilates', park:'Parco Ducos 1', zone:'Centro', address:'Viale Venezia', days:[1,3], timeStart:'09:00', timeEnd:'10:00' },
+  { id:36, name:'Vinyasa Yoga', park:'Parco Ducos 1', zone:'Centro', address:'Viale Venezia', days:[1,3], timeStart:'19:00', timeEnd:'20:00' },
+  { id:37, name:'Tai Chi', park:'Viridarium Santa Giulia', zone:'Centro', address:'Via dei Musei 81/b', days:[2,4], timeStart:'09:15', timeEnd:'10:15' },
+  { id:38, name:'Body Tonic', park:'Torri Gemelle', zone:'Centro', address:'Via XXV Aprile', days:[1,3], timeStart:'20:00', timeEnd:'21:00' },
+  { id:39, name:'Danze Popolari', park:'Parco dell\'Acqua', zone:'Centro', address:'Largo Torrelunga 7', days:[1,3], timeStart:'20:00', timeEnd:'21:00' },
+  { id:40, name:'Acro-Yoga', park:'Parco Sant\'Antonino', zone:'Centro', address:'Via Marconi', days:[2,4], timeStart:'18:00', timeEnd:'19:00' },
+  { id:101, name:'Trekking ed Ambiente', park:'Sentiero delle Pozze in Maddalena', zone:'Nord', address:'Via della Maddalena, 70', exactDates:['2026-06-03'], timeStart:'19:30', timeEnd:'21:30', notes:NOTES_TREKK, link:LINKS.trekking },
+  { id:102, name:'Trekking ed Ambiente', park:'Da Torricella ai Campiani', zone:'Ovest', address:'Via Valle Bresciana', exactDates:['2026-06-13'], timeStart:'07:30', timeEnd:'09:30', notes:NOTES_TREKK, link:LINKS.trekking },
+  { id:103, name:'Trekking ed Ambiente', park:'Su e giù dal Castello di Brescia', zone:'Centro', address:'Piazza Arnaldo', exactDates:['2026-06-17'], timeStart:'19:30', timeEnd:'21:30', notes:NOTES_TREKK, link:LINKS.trekking },
+  { id:104, name:'Trekking ed Ambiente', park:'Dal Polivalente al Monte Peso', zone:'Ovest', address:'Via Collebeato', exactDates:['2026-06-27'], timeStart:'07:30', timeEnd:'09:30', notes:NOTES_TREKK, link:LINKS.trekking },
+  { id:105, name:'Trekking ed Ambiente', park:'Giro della Collina di S. Anna', zone:'Ovest', address:'Via Badia', exactDates:['2026-07-04'], timeStart:'07:30', timeEnd:'09:30', notes:NOTES_TREKK, link:LINKS.trekking },
+  { id:106, name:'Trekking ed Ambiente', park:'Dal Parco Castelli sulla Green Way', zone:'Nord', address:'Via Benedetto Castelli', exactDates:['2026-07-11'], timeStart:'07:30', timeEnd:'11:30', notes:NOTES_TREKK + " Escursione lunga (18-20km).", link:LINKS.trekking },
+  { id:107, name:'Trekking ed Ambiente', park:'Il Sentiero della Resistenza in Maddalena', zone:'Nord', address:'Via della Maddalena, 70', exactDates:['2026-07-18'], timeStart:'07:30', timeEnd:'09:30', notes:NOTES_TREKK, link:LINKS.trekking },
+  { id:108, name:'Trekking ed Ambiente', park:'Il Mella dal Polivalente a Collebeato', zone:'Ovest', address:'Via Collebeato', exactDates:['2026-07-22'], timeStart:'07:30', timeEnd:'09:30', notes:NOTES_TREKK, link:LINKS.trekking }
 ];
 
-loadState();
-buildFilters();
-renderList();
+const COLORS = { 'Ginnastica per Tutti': 'ginnastica', 'Tai Chi': 'taichi', 'Pilates': 'pilates', 'Nordic Walking': 'nordic', 'Vinyasa Yoga': 'yoga', 'Allenamento Funzionale': 'funzionale', 'Corri e Cammina': 'corri', 'Avviamento alla Canoa': 'canoa', 'Trekking ed Ambiente': 'trekking', 'SUP': 'sup', 'Yoga SUP': 'yogasup', 'Disc Golf': 'discgolf', 'Danze Popolari': 'danze', 'Ginnastica Posturale': 'posturale', 'Body Tonic': 'bodytonic', 'Acro-Yoga': 'yoga' };
+const HEX = { ginnastica:'#66bb6a', taichi:'#5c6bc0', pilates:'#ab47bc', nordic:'#ff7043', yoga:'#7e57c2', funzionale:'#ef5350', corri:'#ffa726', canoa:'#26c6da', trekking:'#8d6e63', sup:'#29b6f6', yogasup:'#ba68c8', discgolf:'#d4e157', danze:'#ec407a', posturale:'#26a69a', bodytonic:'#ff5252' };
+
+let state = {
+  saved: {}, done: {}, name: '',
+  filterDate: 'all', filterZone: 'all', filterPark: 'all', filterAct: 'all',
+  calViewYear: 2026, calViewMonth: 5, calSelectedDate: null, modalActivity: null,
+};
+
+function loadState() {
+  const dt = localStorage.getItem('sap2026_user');
+  if (dt) {
+    const u = JSON.parse(dt);
+    state.name = u.name||''; 
+    updateTitles(); document.getElementById('welcome-overlay').style.display = 'none';
+  } else {
+    document.getElementById('welcome-overlay').style.display = 'flex';
+  }
+  try { const s = localStorage.getItem('sap2026_state'); if (s) { const p = JSON.parse(s); state.saved = p.saved||{}; state.done = p.done||{}; } } catch(e){}
+}
+function saveState() { localStorage.setItem('sap2026_state', JSON.stringify({saved:state.saved,done:state.done})); }
+
+async function saveUserData(source) {
+  const btn = source === 'welcome' ? document.getElementById('btn-welcome-save') : document.getElementById('btn-settings-save');
+  const nameVal = document.getElementById(source+'-name').value.trim();
+  
+  state.name = nameVal; 
+  
+  localStorage.setItem('sap2026_user', JSON.stringify({name: state.name}));
+  updateTitles();
+  
+  if(source === 'welcome') document.getElementById('welcome-overlay').style.display = 'none';
+  else closeSettings();
+  
+  refreshDropdowns(); renderList(); showToast("Dati salvati con successo!");
+}
+
+function updateTitles() {
+  if (state.name) {
+    document.getElementById('cal-title').textContent = `Il Calendario di ${state.name}`;
+    document.getElementById('hist-title').textContent = `I Traguardi di ${state.name}`;
+  }
+}
+
+function openSettings() {
+  document.getElementById('settings-name').value = state.name;
+  document.getElementById('settings-overlay').classList.add('open');
+}
+function closeSettings(e) {
+  if (e && e.target !== document.getElementById('settings-overlay')) return;
+  document.getElementById('settings-overlay').classList.remove('open');
+}
+function forceAppUpdate() {
+  const url = new URL(window.location.href);
+  url.searchParams.set('v', new Date().getTime());
+  window.location.href = url.toString();
+}
+
+function formatDate(d) { return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0'); }
+function parseDate(s) { const [y,m,d] = s.split('-').map(Number); return new Date(y, m-1, d); }
+function getOccurrences(act) {
+  const dates = [];
+  if (act.exactDates) { act.exactDates.forEach(d => dates.push(parseDate(d))); return dates; }
+  let cur = new Date(START);
+  while (cur <= END) { if (act.days.includes(cur.getDay())) dates.push(new Date(cur)); cur.setDate(cur.getDate()+1); }
+  return dates;
+}
 
 function isSaved(id, d) { return !!(state.saved[id] && state.saved[id].includes(d)); }
 function isDone(id, d) { return !!state.done[id + '-' + d]; }
@@ -539,31 +603,172 @@ function toggleDone(id, d) {
   saveState();
 }
 
-function openSettings() {
-  document.getElementById('settings-name').value = state.name;
-  document.getElementById('settings-overlay').classList.add('open');
+function showToast(msg) {
+  const t = document.getElementById('toast'); t.textContent = msg; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
 }
-function closeSettings(e) { if (e && e.target !== document.getElementById('settings-overlay')) return; document.getElementById('settings-overlay').classList.remove('open'); }
 
+function switchPage(name) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('page-' + name).classList.add('active');
+  const activeBtn = document.querySelector(`.nav-btn[data-page="${name}"]`);
+  if(activeBtn) activeBtn.classList.add('active');
+  
+  if (name === 'calendar') renderCalendar();
+  if (name === 'history') renderHistory();
+}
+
+function switchTab(tabId, el) {
+  document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById(tabId).classList.add('active');
+}
+
+// TIMELINE E FILTRI
+function toggleFilters() {
+  const f = document.getElementById('advanced-filters'); const b = document.getElementById('btn-toggle-filters');
+  const isOpen = f.classList.contains('open');
+  if (isOpen) { f.classList.remove('open'); b.classList.remove('open'); }
+  else { f.classList.add('open'); b.classList.add('open'); }
+}
+
+function buildFilters() {
+  const wrap = document.getElementById('timeline-scroll'); wrap.innerHTML = '';
+  
+  const sqAll = document.createElement('div');
+  sqAll.className = 'date-square all-dates ' + (state.filterDate === 'all' ? 'active' : '');
+  sqAll.innerHTML = `<div class="ds-day" style="font-size:0.9rem">TUTTE</div>`;
+  sqAll.onclick = () => { state.filterDate = 'all'; buildFilters(); refreshDropdowns(); renderList(); };
+  wrap.appendChild(sqAll);
+
+  let cur = new Date(TODAY);
+  while (cur <= END) {
+    if (cur >= START) {
+      const dStr = formatDate(cur);
+      const el = document.createElement('div');
+      el.className = 'date-square ' + (state.filterDate === dStr ? 'active' : '');
+      el.innerHTML = `<div class="ds-dow">${DAYS_IT[cur.getDay()]}</div><div class="ds-day">${cur.getDate()}</div><div class="ds-month">${MONTHS_IT[cur.getMonth()].substring(0,3)}</div>`;
+      el.onclick = () => { state.filterDate = dStr; buildFilters(); refreshDropdowns(); renderList(); };
+      wrap.appendChild(el);
+    }
+    cur.setDate(cur.getDate()+1);
+  }
+  refreshDropdowns();
+}
+
+function refreshDropdowns() {
+  const matches = (act, checkDate, checkZone, checkPark, checkAct) => {
+    if (checkZone !== 'all' && act.zone !== checkZone) return false;
+    if (checkPark !== 'all' && act.park !== checkPark) return false;
+    if (checkAct !== 'all' && act.name !== checkAct) return false;
+    if (checkDate !== 'all') {
+      let hasDate = false; getOccurrences(act).forEach(d => { if (formatDate(d) === checkDate) hasDate = true; });
+      if (!hasDate) return false;
+    }
+    return true;
+  };
+
+  const validZones = new Set(), validParks = new Set(), validActs = new Set();
+
+  ACTIVITIES.forEach(act => {
+    if (matches(act, state.filterDate, 'all', state.filterPark, state.filterAct)) validZones.add(act.zone);
+    if (matches(act, state.filterDate, state.filterZone, 'all', state.filterAct)) validParks.add(act.park);
+    if (matches(act, state.filterDate, state.filterZone, state.filterPark, 'all')) validActs.add(act.name);
+  });
+
+  const zoneSel = document.getElementById('filter-zone'); zoneSel.innerHTML = '<option value="all">Tutte le Zone</option>';
+  [...validZones].sort().forEach(z => zoneSel.innerHTML += `<option value="${z}" ${state.filterZone===z?'selected':''}>Zona ${z}</option>`);
+  if (!validZones.has(state.filterZone) && state.filterZone !== 'all') { state.filterZone = 'all'; zoneSel.value = 'all'; }
+
+  const parkSel = document.getElementById('filter-park'); parkSel.innerHTML = '<option value="all">Tutti i Parchi</option>';
+  [...validParks].sort().forEach(p => parkSel.innerHTML += `<option value="${p}" ${state.filterPark===p?'selected':''}>${p}</option>`);
+  if (!validParks.has(state.filterPark) && state.filterPark !== 'all') { state.filterPark = 'all'; parkSel.value = 'all'; }
+
+  const actSel = document.getElementById('filter-acts'); actSel.innerHTML = '<option value="all">Tutti gli Sport</option>';
+  [...validActs].sort().forEach(a => actSel.innerHTML += `<option value="${a}" ${state.filterAct===a?'selected':''}>${a}</option>`);
+  if (!validActs.has(state.filterAct) && state.filterAct !== 'all') { state.filterAct = 'all'; actSel.value = 'all'; }
+}
+
+function updateFilters(type, val) { state['filter'+type.charAt(0).toUpperCase() + type.slice(1)] = val; refreshDropdowns(); renderList(); }
+
+function renderList() {
+  const list = document.getElementById('activities-list'); list.innerHTML = '';
+  let items = [];
+  
+  ACTIVITIES.forEach(act => {
+    getOccurrences(act).forEach(d => {
+      const dStr = formatDate(d);
+      if (state.filterDate !== 'all' && state.filterDate !== dStr) return;
+      if (state.filterDate === 'all' && d < TODAY && dStr !== formatDate(TODAY)) return; 
+      if (state.filterZone !== 'all' && act.zone !== state.filterZone) return;
+      if (state.filterPark !== 'all' && act.park !== state.filterPark) return;
+      if (state.filterAct !== 'all' && act.name !== state.filterAct) return;
+      items.push({ act, dStr, d });
+    });
+  });
+
+  items.sort((a,b) => (a.d - b.d) || a.act.timeStart.localeCompare(b.act.timeStart));
+  const shown = items.slice(0, 150); 
+  
+  document.getElementById('activities-subtitle').textContent = items.length ? `${items.length} eventi in programma` : 'Nessun evento corrispondente';
+
+  if (!items.length) {
+    list.innerHTML = '<div class="empty-msg">Nessuna attività trovata.<br>Prova a modificare i filtri o scorrere le date.</div>';
+    return;
+  }
+
+  let lastDate = '';
+  shown.forEach(({act, dStr, d}) => {
+    if (state.filterDate === 'all' && dStr !== lastDate) {
+      const isToday = formatDate(TODAY)===dStr;
+      list.innerHTML += `<div class="date-divider">${isToday?'Oggi – ':''}${DAYS_IT[d.getDay()]} ${d.getDate()} ${MONTHS_IT[d.getMonth()]}</div>`;
+      lastDate = dStr;
+    }
+
+    const saved = isSaved(act.id, dStr);
+    const colorClass = 'color-' + (COLORS[act.name] || 'ginnastica');
+    
+    const card = document.createElement('div');
+    card.className = `act-card ${colorClass}`;
+    card.innerHTML = `
+      <div class="act-card-body" onclick="openModal(${act.id},'${dStr}')">
+        <div class="act-card-top"><div class="act-name">${act.name}</div><div style="display:flex;gap:6px;align-items:center;"><div class="act-time-badge">${act.timeStart}</div></div></div>
+        <div class="act-park"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg> ${act.park}</div>
+      </div>
+      <div class="act-card-bookmark ${saved?'saved':''}" onclick="event.stopPropagation();quickSave(${act.id},'${dStr}',this)">
+        <svg viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+    `;
+    list.appendChild(card);
+  });
+  
+  document.getElementById('page-activities').scrollTop = 0;
+}
+
+function quickSave(id, dStr, el) { toggleSave(id, dStr); const s = isSaved(id, dStr); el.classList.toggle('saved', s); showToast(s ? 'Aggiunto al calendario!' : 'Rimosso dal calendario'); }
+
+// MODAL SCHEDA ATTIVITÀ
 function openModal(id, dStr) {
   const act = ACTIVITIES.find(a=>a.id===id); if (!act) return;
   state.modalActivity = { act, dStr };
-  const saved = isSaved(act.id, dStr); const done = isDone(act.id, dStr);
+  const saved = isSaved(id, dStr); const done = isDone(id, dStr);
 
   document.getElementById('modal-name').textContent = act.name;
   document.getElementById('modal-color-bar').style.background = HEX[COLORS[act.name]] || HEX.ginnastica;
   
-  const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(act.park + ', Brescia, Italy')}`;
+  const mapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(act.park+', '+act.address+', Brescia')}`;
   const meetingHtml = MEETING_POINTS[act.park] ? `<div class="meeting-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/></svg><div><strong>Punto di ritrovo:</strong><br>${MEETING_POINTS[act.park]}</div></div>` : '';
 
   let html = `
     <div class="modal-row"><svg class="modal-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-      <div><div class="modal-label">Data e Ora</div><div class="modal-value">${dStr.split('-').reverse().join('/')}</div><div class="modal-desc" style="color:var(--text); font-weight:700;">${act.timeStart}</div></div></div>
+      <div><div class="modal-label">Data e Ora</div><div class="modal-value">${dStr.split('-').reverse().join('/')}</div><div class="modal-desc" style="color:var(--text); font-weight:700;">${act.timeStart} – ${act.timeEnd}</div></div></div>
     <div class="modal-row"><svg class="modal-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20"/><line x1="2" y1="12" x2="22" y2="12"/></svg>
       <div><div class="modal-label">Info Attività</div><div class="modal-value">${act.name}</div><div class="modal-desc">${DESCRIPTIONS[act.name]||''}</div></div></div>
     <div class="modal-row"><svg class="modal-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
-      <div><div class="modal-label">Luogo (Zona ${act.zone})</div><div class="modal-value">${act.park}</div>
-        <a class="modal-maps-btn" href="${mapsUrl}" target="_blank" style="margin-bottom:8px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg> Apri in Maps</a>
+      <div><div class="modal-label">Luogo (Zona ${act.zone})</div><div class="modal-value">${act.park}</div><div class="modal-desc" style="margin-bottom:8px">${act.address}</div>
+        <a class="modal-maps-btn" href="${mapsUrl}" target="_blank"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg> Apri in Maps</a>
         ${meetingHtml}
       </div>
     </div>
@@ -571,10 +776,18 @@ function openModal(id, dStr) {
   
   let equipNote = '';
   const matSports = ['Pilates', 'Vinyasa Yoga', 'Ginnastica per Tutti', 'Ginnastica Posturale', 'Body Tonic', 'Allenamento Funzionale', 'Acro-Yoga'];
-  if (matSports.includes(act.name)) equipNote = "<strong>Attrezzatura:</strong> Ricordati di portare il tuo materassino o telo per gli esercizi a terra.";
-  else if (act.name === 'Nordic Walking') equipNote = "<strong>Attrezzatura:</strong> È necessario portare le proprie racchette da camminata nordica.";
+  if (matSports.includes(act.name)) {
+    equipNote = "<strong>Attrezzatura:</strong> Ricordati di portare il tuo materassino o telo per gli esercizi a terra.";
+  } else if (act.name === 'Nordic Walking') {
+    equipNote = "<strong>Attrezzatura:</strong> È necessario portare le proprie racchette da camminata nordica.";
+  }
 
-  if (equipNote || act.notes) html += `<div class="alert-box">${equipNote ? equipNote + '<br><br>' : ''}${act.notes || ''}</div>`;
+  if (equipNote || act.notes) {
+    html += `<div class="alert-box">
+      ${equipNote ? equipNote + (act.notes ? '<br><br>' : '') : ''}
+      ${act.notes || ''}
+    </div>`;
+  }
   
   document.getElementById('modal-rows').innerHTML = html;
 
@@ -588,10 +801,12 @@ function openModal(id, dStr) {
   document.getElementById('modal-overlay').classList.add('open');
 }
 
-function removeSaveFromModal() { const { act, dStr } = state.modalActivity; toggleSave(act.id, dStr); showToast('Rimosso dal calendario.'); closeModal(); renderList(); renderCalendar(); }
-function removeDoneFromModal() { const { act, dStr } = state.modalActivity; toggleDone(act.id, dStr); showToast('Rimosso dallo storico.'); closeModal(); renderHistory(); renderCalendar(); }
+function closeModal(e) { if (e && e.target !== document.getElementById('modal-overlay')) return; document.getElementById('modal-overlay').classList.remove('open'); }
 function addSaveFromModal() { const { act, dStr } = state.modalActivity; toggleSave(act.id, dStr); showToast('Aggiunto al calendario!'); closeModal(); renderList(); renderCalendar(); }
+function removeSaveFromModal() { const { act, dStr } = state.modalActivity; toggleSave(act.id, dStr); showToast('Rimosso dal calendario.'); closeModal(); renderList(); renderCalendar(); }
+function removeDoneFromModal() { const { act, dStr } = state.modalActivity; toggleDone(act.id, dStr); showToast('Rimosso dallo Storico.'); closeModal(); renderHistory(); renderCalendar(); }
 
+// CALENDARIO
 function renderCalendar() {
   const year = state.calViewYear; const month = state.calViewMonth;
   document.getElementById('cal-month-title').textContent = MONTHS_IT[month] + ' ' + year;
@@ -628,6 +843,17 @@ function renderCalendar() {
   else document.getElementById('cal-sel-list').innerHTML = '';
 }
 
+function changeMonth(d) {
+  let newMonth = state.calViewMonth + d;
+  if (newMonth < 5) newMonth = 5;
+  if (newMonth > 7) newMonth = 7;
+  if (state.calViewMonth !== newMonth) {
+    state.calViewMonth = newMonth;
+    state.calSelectedDate = null;
+    renderCalendar();
+  }
+}
+
 function renderCalDay(dStr) {
   document.getElementById('cal-sel-label').textContent = 'In Programma: ' + dStr.split('-').reverse().join('/');
   const list = document.getElementById('cal-sel-list'); list.innerHTML = '';
@@ -640,39 +866,50 @@ function renderCalDay(dStr) {
     const el = document.createElement('div'); el.className = `list-item ${col}`; el.style.opacity = done?'0.6':'1';
     el.innerHTML = `
       <div class="list-info" onclick="openModal(${act.id},'${dStr}')">
-        <div class="act-name">${act.name}</div><div style="font-size:0.8rem;color:var(--text-mid);margin-top:2px;">${act.timeStart} • ${act.park}</div>
+        <div class="act-name">${act.name}</div><div style="font-size:0.8rem;color:var(--text-mid);margin-top:2px;">${act.timeStart} – ${act.timeEnd} • ${act.park}</div>
       </div>
       <div class="list-check ${done?'done':''}" onclick="markDone(${act.id},'${dStr}')"><svg viewBox="0 0 24 24" fill="none" stroke="${done?'white':'var(--green-light)'}" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
     `;
     list.appendChild(el);
   });
 }
+function markDone(id, dStr) { toggleDone(id, dStr); const d = isDone(id, dStr); showToast(d ? 'Bravissimo! 🏆' : 'Segno rimosso'); renderCalendar(); }
 
+// HISTORY E STATS POPUP
 function renderHistory() {
   const wrap = document.getElementById('hist-stats-wrap');
   const list = document.getElementById('hist-list'); list.innerHTML = '';
   const items = [];
-  Object.entries(state.done).forEach(([k, v]) => { if (v) { const [id, ...dP] = k.split('-'); const dStr = dP.join('-'); const act = ACTIVITIES.find(a=>a.id==id); if (act) items.push({act, dStr}); } });
+  Object.entries(state.done).forEach(([k, v]) => {
+    if (!v) return;
+    const [id, ...dP] = k.split('-'); const dStr = dP.join('-');
+    const act = ACTIVITIES.find(a=>a.id==id); if (act) items.push({act, dStr});
+  });
 
   const totalMin = items.reduce((sum, {act}) => {
     const [sh,sm] = act.timeStart.split(':').map(Number);
     const [eh,em] = act.timeEnd.split(':').map(Number);
     return sum + ((eh*60+em) - (sh*60+sm));
   }, 0);
-  const h = Math.floor(totalMin/60); const m = totalMin % 60;
-  let timeStr = h > 0 ? `${h}h ` : ''; timeStr += `${m}m`;
+  const h = Math.floor(totalMin/60);
+  const m = totalMin % 60;
+  let timeStr = '';
+  if (h > 0) timeStr += `${h}h `;
+  if (m > 0 || h === 0) timeStr += `${m}m`;
+  timeStr = timeStr.trim() || '0m';
   
   const uniqueSports = new Set(items.map(i=>i.act.name)).size;
   const uniqueParks = new Set(items.map(i=>i.act.park)).size;
 
   wrap.innerHTML = `<div class="hist-stats">
-    <div class="hist-stat" onclick="showStatModal('sports')"><div class="hist-stat-num">${uniqueSports}</div><div class="hist-stat-label">Sport Provati <svg style="width:12px; height:12px; stroke-width:2" viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg></div></div><div class="hist-divider"></div>
-    <div class="hist-stat"><div class="hist-stat-num" style="font-size:1.5rem; padding-top:4px;">${timeStr}</div><div class="hist-stat-label">Di Sport</div></div><div class="hist-divider"></div>
-    <div class="hist-stat" onclick="showStatModal('parks')"><div class="hist-stat-num">${uniqueParks}</div><div class="hist-stat-label">Parchi Visitati <svg style="width:12px; height:12px; stroke-width:2" viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg></div></div>
+    <div class="hist-stat" onclick="showStatModal('sports')"><div class="hist-stat-num">${uniqueSports}</div><div class="hist-stat-label">Sport Provati <svg style="width:12px; height:12px; margin-left:2px; opacity:0.8; vertical-align:middle;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg></div></div><div class="hist-divider"></div>
+    <div class="hist-stat"><div class="hist-stat-num" style="font-size:1.5rem; white-space:nowrap; padding-top:4px;">${timeStr}</div><div class="hist-stat-label">Di Sport</div></div><div class="hist-divider"></div>
+    <div class="hist-stat" onclick="showStatModal('parks')"><div class="hist-stat-num">${uniqueParks}</div><div class="hist-stat-label">Parchi Visitati <svg style="width:12px; height:12px; margin-left:2px; opacity:0.8; vertical-align:middle;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg></div></div>
   </div>`;
   
   document.getElementById('hist-sessions-label').textContent = `Attività svolte: ${items.length}`;
-  if (!items.length) { list.innerHTML = `<div class="empty-msg">Nessuna attività completata. Spuntale dal Calendario!</div>`; return; }
+
+  if (!items.length) { list.innerHTML = `<div class="empty-msg">Nessuna attività completata. Spuntale dal Calendario per vederle qui!</div>`; return; }
 
   items.sort((a,b) => b.dStr.localeCompare(a.dStr)).forEach(({act, dStr}) => {
     const el = document.createElement('div'); el.className = `list-item color-${COLORS[act.name]||'ginnastica'}`;
@@ -681,28 +918,45 @@ function renderHistory() {
       <div class="list-info" onclick="openModal(${act.id},'${dStr}')">
         <div class="act-name">${act.name}</div><div style="font-size:0.8rem;color:var(--text-mid);">${act.park}</div>
       </div>
-      <svg viewBox="0 0 24 24" fill="none" stroke="var(--green-dark)" stroke-width="2.5" width="22" height="22"><polyline points="20 6 9 17 4 12"/></svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="var(--green-dark)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="22" height="22"><polyline points="20 6 9 17 4 12"/></svg>
     `;
     list.appendChild(el);
   });
 }
 
 function showStatModal(type) {
-  const list = document.getElementById('stat-modal-list'); const title = document.getElementById('stat-modal-title'); list.innerHTML = '';
-  const doneItems = Object.entries(state.done).filter(([k,v]) => v).map(([k,v]) => ACTIVITIES.find(a=>a.id == k.split('-')[0])).filter(a=>a);
+  const list = document.getElementById('stat-modal-list');
+  const title = document.getElementById('stat-modal-title');
+  list.innerHTML = '';
+  
+  const doneItems = Object.entries(state.done)
+    .filter(([k,v]) => v)
+    .map(([k,v]) => ACTIVITIES.find(a=>a.id == k.split('-')[0]))
+    .filter(a=>a);
+    
   if (type === 'sports') {
       title.textContent = "Gli Sport che hai provato";
       const sports = [...new Set(doneItems.map(a=>a.name))].sort();
-      sports.forEach(s => list.innerHTML += `<div class="suggestion-item">${s}</div>`);
-  } else {
+      if(sports.length===0) list.innerHTML = '<div class="suggestion-item" style="color:var(--text-light)">Nessuno sport provato.</div>';
+      sports.forEach(s => list.innerHTML += `<div class="suggestion-item" style="cursor:default">${s}</div>`);
+  } else if (type === 'parks') {
       title.textContent = "I Parchi che hai visitato";
       const parks = [...new Set(doneItems.map(a=>a.park))].sort();
-      parks.forEach(p => list.innerHTML += `<div class="suggestion-item">${p}</div>`);
+      if(parks.length===0) list.innerHTML = '<div class="suggestion-item" style="color:var(--text-light)">Nessun parco visitato.</div>';
+      parks.forEach(p => list.innerHTML += `<div class="suggestion-item" style="cursor:default">${p}</div>`);
   }
   document.getElementById('stat-modal-overlay').classList.add('open');
 }
 
-function closeStatModal() { document.getElementById('stat-modal-overlay').classList.remove('open'); }
+function closeStatModal(e) {
+  if (e && e.target !== document.getElementById('stat-modal-overlay')) return;
+  document.getElementById('stat-modal-overlay').classList.remove('open');
+}
+
+// INIT
+loadState();
+buildFilters();
+renderList();
 </script>
 </body>
 </html>
