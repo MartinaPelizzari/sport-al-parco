@@ -23,6 +23,7 @@
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+    /* Blocco overscroll rimbalzante su iOS per evitare lo spostamento dell'interfaccia */
     html, body { height: 100%; background: var(--bg); font-family: 'Nunito', sans-serif; color: var(--text); overflow: hidden; overscroll-behavior-y: none; }
 
     .color-ginnastica   { --act-color: #66bb6a; } .color-taichi       { --act-color: #5c6bc0; }
@@ -89,7 +90,6 @@
     .act-name { font-weight: 800; font-size: 1rem; color: var(--text); line-height: 1.2; }
     .act-time-badge { background: var(--green-pale); color: var(--green-deep); font-size: 0.75rem; font-weight: 800; padding: 4px 10px; border-radius: 20px; white-space: nowrap; flex-shrink: 0; border: 1px solid var(--green-light);}
     .act-park { font-size: 0.8rem; font-weight: 600; color: var(--text-mid); margin-top: 6px; display: flex; align-items: center; gap: 6px; }
-    .act-dist { font-size: 0.7rem; color: var(--text-light); background: var(--bg); padding: 2px 6px; border-radius: 6px; font-weight: 700; }
     .act-card-bookmark { width: 50px; display: flex; align-items: center; justify-content: center; cursor: pointer; border-left: 1px solid var(--green-pale); }
     .act-card-bookmark svg { width: 26px; height: 26px; fill: none; stroke: var(--green-light); stroke-width: 2; }
     .act-card-bookmark.saved svg { fill: var(--green-dark); stroke: var(--green-dark); }
@@ -129,32 +129,6 @@
     .btn-save.saved { background: var(--green-dark); color: white; border-color: var(--green-dark); }
     .btn-remove { background: transparent; color: #e53935; border: 2px solid #ffcdd2; margin-top: 8px; }
 
-    #welcome-overlay { position: fixed; inset: 0; background: var(--green-deep); z-index: 2000; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 20px; text-align: center; color: white; }
-    .welcome-box { background: white; color: var(--text); padding: 30px 20px; border-radius: 24px; width: 100%; max-width: 380px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
-    .welcome-title { font-family: 'Fraunces', serif; font-size: 1.8rem; font-weight: 900; color: var(--green-deep); margin-bottom: 10px; }
-    .input-field { width: 100%; padding: 14px; border: 2px solid var(--border); border-radius: 12px; font-family: 'Nunito', sans-serif; font-size: 1rem; margin-top: 10px; outline: none; text-align: left; font-weight: 700; background: var(--bg); transition: border-color 0.2s; }
-    .input-field:focus { border-color: var(--green-dark); }
-    .btn-primary { width: 100%; padding: 14px; background: var(--green-dark); color: white; font-family: 'Nunito', sans-serif; font-size: 1rem; font-weight: 800; border: none; border-radius: 12px; cursor: pointer; margin-top: 20px; }
-
-    .suggestions-box { position: absolute; top: 100%; left: 0; right: 0; background: white; border: 1px solid var(--border); border-radius: 8px; max-height: 220px; overflow-y: auto; z-index: 3000; box-shadow: 0 4px 12px rgba(0,0,0,0.1); display: none; text-align: left; margin-top: 4px; }
-    .suggestion-item { padding: 12px 14px; font-size: 0.9rem; color: var(--text); border-bottom: 1px solid var(--green-pale); cursor: pointer; line-height: 1.3; font-weight: 600; }
-    .suggestion-item:last-child { border-bottom: none; }
-
-    .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; padding: 0 16px 16px; }
-    .cal-day-header { text-align: center; font-size: 0.7rem; font-weight: 800; color: var(--text-light); text-transform: uppercase; padding: 8px 0; }
-    .cal-day { min-height: 54px; border-radius: 12px; padding: 6px 4px; display: flex; flex-direction: column; align-items: center; cursor: pointer; background: var(--white); border: 1px solid var(--border); }
-    .cal-day.other-month { opacity: 0.3; }
-    .cal-day.today .cal-day-num { background: var(--green-dark); color: white; }
-    .cal-day.selected { background: var(--green-pale); border-color: var(--green); box-shadow: inset 0 0 0 1px var(--green); }
-    .cal-day-num { font-size: 0.9rem; font-weight: 800; color: var(--text); width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; border-radius: 50%; margin-bottom: 4px; }
-    .cal-dots { display: flex; gap: 3px; flex-wrap: wrap; justify-content: center; padding: 0 2px; }
-    .cal-dot { width: 6px; height: 6px; border-radius: 50%; box-shadow: 0 1px 2px rgba(0,0,0,0.1); }
-    
-    .list-item { background: var(--white); border-radius: var(--radius-sm); padding: 12px; box-shadow: var(--card-shadow); display: flex; gap: 12px; align-items: center; border-left: 5px solid var(--act-color, var(--green)); margin-bottom: 10px; }
-    .list-info { flex: 1; cursor: pointer; }
-    .list-check { width: 36px; height: 36px; border-radius: 50%; border: 2.5px solid var(--green-light); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; }
-    .list-check.done { background: var(--green-dark); border-color: var(--green-dark); }
-    
     .hist-stats { margin: 0 16px 12px; background: linear-gradient(135deg, var(--green-dark), var(--green-deep)); border-radius: var(--radius); padding: 20px 10px; color: white; display: flex; box-shadow: 0 4px 12px rgba(46, 125, 50, 0.2); }
     .hist-stat { flex: 1; text-align: center; cursor: pointer; display: flex; flex-direction: column; align-items: center; }
     .hist-stat-num { font-family: 'Fraunces', serif; font-size: 1.8rem; font-weight: 900; }
@@ -169,9 +143,6 @@
     .tab-content h3 { color: var(--green-deep); font-size: 1.15rem; margin: 20px 0 10px; font-family: 'Fraunces', serif; font-weight: 900; }
     .tab-content ul { margin-left: 20px; margin-bottom: 16px; }
     .tab-content li { margin-bottom: 8px; }
-
-    #toast { position: fixed; bottom: calc(var(--nav-h) + env(safe-area-inset-bottom, 0px) + 20px); left: 50%; transform: translateX(-50%) translateY(20px); background: var(--text); color: white; padding: 12px 24px; border-radius: 30px; font-size: 0.9rem; font-weight: 800; z-index: 3000; opacity: 0; transition: all 0.3s; pointer-events: none; text-align: center; }
-    #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
   </style>
 </head>
 <body>
@@ -185,13 +156,9 @@
 <div id="welcome-overlay">
   <div class="welcome-box">
     <div class="welcome-title">Benvenuto!</div>
-    <p style="font-size: 0.9rem; color: var(--text-mid); font-weight: 600; line-height: 1.4;">Personalizza l'app con il tuo nome e l'indirizzo di partenza (per il calcolo delle distanze).</p>
-    <input type="text" id="welcome-name" class="input-field" placeholder="Il tuo Nome (es. Marco)" autocomplete="off">
-    <div style="position: relative;">
-      <input type="text" id="welcome-address" class="input-field" placeholder="Indirizzo (es. Via Corfù 53, Brescia)" autocomplete="off" oninput="debounceSearch(this.value, 'welcome')">
-      <div id="welcome-suggestions" class="suggestions-box"></div>
-    </div>
-    <button class="btn-primary" onclick="saveUserData('welcome')" id="btn-welcome-save">Salva e Inizia</button>
+    <p style="font-size: 0.9rem; color: var(--text-mid); font-weight: 600; line-height: 1.4;">Personalizza l'app inserendo il tuo nome per iniziare.</p>
+    <input type="text" id="welcome-name" class="input-field" placeholder="Il tuo Nome (es. Marco)" style="text-align: center;" autocomplete="off">
+    <button class="btn-primary" onclick="saveUserData('welcome')" id="btn-welcome-save">Inizia</button>
   </div>
 </div>
 
@@ -204,7 +171,7 @@
         <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
       </button>
       <button class="settings-btn" onclick="openSettings()" aria-label="Impostazioni">
-        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 TriV21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
       </button>
     </div>
   </div>
@@ -223,7 +190,7 @@
           </div>
           <div class="filter-row-grid">
             <select class="filter-select" id="filter-acts" onchange="updateFilters('act', this.value)"></select>
-            <select class="filter-select" id="filter-dist" onchange="updateFilters('dist', this.value)"></select>
+            <select class="filter-select" id="filter-time" onchange="updateFilters('time', this.value)"></select>
           </div>
         </div>
       </div>
@@ -283,7 +250,7 @@
         
         <h3>Come funziona:</h3>
         <ul>
-          <li><strong>Esplora e Filtra:</strong> Nella pagina principale puoi scorrere le date e utilizzare i filtri avanzati per trovare gli sport più vicini a te o in una zona specifica.</li>
+          <li><strong>Esplora e Filtra:</strong> Nella pagina principale puoi scorrere le date e utilizzare i filtri avanzati per trovare gli sport per Zona, Parco, Disciplina o Fascia Oraria.</li>
           <li><strong>Il Tuo Calendario:</strong> Cliccando sull'icona del "segnalibro" in una scheda, l'attività verrà salvata nel tuo calendario personale. <br><span style="color:var(--accent2); font-weight:700;">Attenzione:</span> Salvare un evento nel calendario dell'app <u>NON</u> equivale a un'iscrizione ufficiale. Serve solo come promemoria personale!</li>
           <li><strong>Iscrizioni Reali:</strong> Per gli sport che richiedono una vera iscrizione (es. Canoa, SUP, Trekking), troverai un pulsante arancione "Prenota su Form" all'interno della scheda. Cliccandolo verrai rimandato ai moduli di iscrizione ufficiali di Google.</li>
           <li><strong>I tuoi Traguardi:</strong> Nel calendario puoi "spuntare" i giorni in cui hai effettivamente partecipato. L'app calcolerà in automatico le ore di sport che hai fatto e quante aree verdi hai visitato.</li>
@@ -377,14 +344,9 @@
     </button>
     <div class="modal-content">
       <div class="modal-activity-name" style="color:var(--text)">Impostazioni</div>
-      <div style="margin-bottom: 16px;">
+      <div style="margin-bottom: 24px;">
         <label style="font-size:0.8rem; font-weight:800; color:var(--text-light); text-transform:uppercase;">Nome</label>
-        <input type="text" id="settings-name" class="input-field" style="margin-top:4px;" placeholder="Il tuo nome">
-      </div>
-      <div style="margin-bottom: 24px; position:relative;">
-        <label style="font-size:0.8rem; font-weight:800; color:var(--text-light); text-transform:uppercase;">Indirizzo (per calcolo distanza)</label>
-        <input type="text" id="settings-address" class="input-field" style="margin-top:4px;" placeholder="Es. Via Corfù 53, Brescia" autocomplete="off" oninput="debounceSearch(this.value, 'settings')">
-        <div id="settings-suggestions" class="suggestions-box"></div>
+        <input type="text" id="settings-name" class="input-field" style="margin-top:4px; text-align: center;" placeholder="Il tuo nome">
       </div>
       <button class="btn-primary" onclick="saveUserData('settings')" id="btn-settings-save">Salva Modifiche</button>
       
@@ -403,89 +365,168 @@
 <div id="toast"></div>
 
 <script>
-// ═══════════════════════════════════════════════
-// SETUP E DATI
-// ═══════════════════════════════════════════════
-const START = new Date(2026, 5, 1);
-const END   = new Date(2026, 7, 1);
-let TODAY = new Date();
-TODAY.setHours(0,0,0,0);
-if (TODAY < START) TODAY = new Date(START);
-
-const DAYS_IT = ['Dom','Lun','Mar','Mer','Gio','Ven','Sab'];
-const MONTHS_IT = ['Gennaio','Febbraio','Marzo','Aprile','Maggio','Giugno','Luglio','Agosto','Settembre','Ottobre','Novembre','Dicembre'];
-
-const DESCRIPTIONS = {
-  'Ginnastica per Tutti': 'Tradizionale attività di palestra che, nel verde, trova e crea nuove motivazioni. Adatta a tutti.',
-  'Tai Chi': 'Antica arte marziale che riunisce in sé disciplina fisica e insegnamenti spirituali.',
-  'Pilates': 'Eserercicio che tonifica i muscoli posturali e migliora forza, resistenza ed elasticità del corpo.',
-  'Nordic Walking': 'Camminata nordica per un allenamento total-body.',
-  'Vinyasa Yoga': 'Pratica millenaria benefica per il corpo, postura, respiro e spiritualità.',
-  'Allenamento Funzionale': 'Allenamento basato sui movimenti naturali del corpo, per agire in profondità sulla muscolatura.',
-  'Corri e Cammina': 'Corsa dolce, l’attività sportiva per eccellenza, alla portata di tutti.',
-  'Avviamento alla Canoa': 'Rilassati immerso nella natura praticando una disciplina sportiva olimpionica.',
-  'Trekking ed Ambiente': 'Camminate naturalistiche nel Parco delle Colline. Un tuffo settimanale nella natura.',
-  'SUP': 'Si rema in piedi su una tavola, simile a quella da surf, utilizzando una pagaia. Combina canoa e surf.',
-  'Yoga SUP': 'Trasformando il lago in palestra e il Sup in tappetino. Sviluppa equilibrio e calma interiore sull\'acqua.',
-  'Disc Golf': 'Regole simili a quelle del golf tradizionale, ma con dischi (frisbee) e bersagli a cesto.',
-  'Danze Popolari': 'Danze folcloristiche come forma d’arte popolare e attività fisica per favorire la socializzazione.',
-  'Ginnastica Posturale': 'Mirata al corretto allineamento della colonna vertebrale e al benessere della schiena.',
-  'Body Tonic': 'Allenamento completo e tonificante per sviluppare forza e resistenza.',
-  'Acro-Yoga': 'Disciplina che unisce lo yoga e l\'acrobatica, da praticare in coppia per sviluppare fiducia ed equilibrio.'
+let state = {
+  saved: {}, done: {}, name: '',
+  filterDate: 'all', filterZone: 'all', filterPark: 'all', filterAct: 'all', filterTime: 'all',
+  calViewYear: 2026, calViewMonth: 5, calSelectedDate: null, modalActivity: null,
 };
 
-const NOTES_WATER = "<strong>Attenzione - Regole di Partecipazione:</strong><ul><li>Portare un cambio completo (costume, calzoncini, maglietta, calzature bagnabili, accappatoio).</li><li>Sarà richiesta la compilazione di una dichiarazione di abilità al nuoto.</li><li>Età minima partecipanti: 9 anni.</li><li>Consentita l'iscrizione a 1 sola prova (le successive verranno annullate).</li></ul><em>Info WhatsApp: 351/9026023 (risposta in 24h)</em>";
-const NOTES_TREKK = "<strong>Attenzione - Equipaggiamento Richiesto:</strong><ul><li>Richiesto un buon stato di allenamento.</li><li>Indossare scarpe da trekking e abbigliamento adeguato alle temperature.</li><li>Portare sempre con sé scorte d'acqua e un cappellino.</li></ul><em>Info WhatsApp: 351/9026023 (risposta in 24h)</em>";
+function loadState() {
+  const dt = localStorage.getItem('sap2026_user');
+  if (dt) {
+    const u = JSON.parse(dt);
+    state.name = u.name||'';
+    updateTitles(); document.getElementById('welcome-overlay').style.display = 'none';
+  } else {
+    document.getElementById('welcome-overlay').style.display = 'flex';
+  }
+  try { const s = localStorage.getItem('sap2026_state'); if (s) { const p = JSON.parse(s); state.saved = p.saved||{}; state.done = p.done||{}; } } catch(e){}
+}
+function saveState() { localStorage.setItem('sap2026_state', JSON.stringify({saved:state.saved,done:state.done})); }
 
-const LINKS = {
-  canoa: "https://docs.google.com/forms/d/e/1FAIpQLSf0uu-Du4KnKkdi02qSS7by8e-I0z3DR3E7aVVxGpviHf__IQ/viewform",
-  sup: "https://docs.google.com/forms/d/e/1FAIpQLSf4LKiMgj5mjGOWDzDsLYrVf6418uTSInNcMlTSigJSB0JOmQ/viewform",
-  yogasup: "https://forms.gle/n8kadCQQS1UnmTGcA",
-  trekking: "https://docs.google.com/forms/u/1/d/e/1FAIpQLSeRqzHTgrl_baC82qk_HOB0Uclz5JfOuS11Shm-QPVzER9eoA/viewform?usp=send_form"
-};
+function saveUserData(source) {
+  const nameVal = document.getElementById(source+'-name').value.trim();
+  if(!nameVal) { showToast("Inserisci un nome valido"); return; }
+  state.name = nameVal;
+  localStorage.setItem('sap2026_user', JSON.stringify({name: state.name}));
+  updateTitles();
+  if(source === 'welcome') document.getElementById('welcome-overlay').style.display = 'none';
+  else closeSettings();
+  refreshDropdowns(); renderList(); showToast("Profilo salvato!");
+}
 
-const PARK_COORDS = {
-  'Parco Castelli': [45.5480, 10.2150], 'Parco Corridoni': [45.5430, 10.2190], 'Parco Jan Palach': [45.5400, 10.2080],
-  'Parco Belvedere': [45.5520, 10.2180], 'Parco Casazza': [45.5540, 10.2210], 'Parco Marcolini (Ori Martin)': [45.5490, 10.2220],
-  'Parco Torricella di Sotto': [45.5310, 10.1820], 'Parco delle Stagioni': [45.5455, 10.1955], 'Parco dei Poeti': [45.5380, 10.1890],
-  'Parco Maggiolini': [45.5340, 10.1780], 'Parco Marcolini (Violino)': [45.5200, 10.1980], 'Parco Frugoni': [45.5290, 10.1900],
-  'Parco Basaglia': [45.5280, 10.2180], 'Giardini Via Fura': [45.5300, 10.2130], 'Parco Giffoni': [45.5150, 10.2280],
-  'Parco Pescheto': [45.5320, 10.2190], 'Parco Martinoni': [45.5140, 10.2290], 'Parco Via Malibran': [45.5200, 10.2250],
-  'Parco della Pace': [45.5060, 10.2200], 'Parco Avis': [45.5170, 10.2600], 'Parco Ragnoli': [45.5240, 10.2310],
-  'Parco Ducos 2': [45.5250, 10.2450], 'Giardini De André': [45.5220, 10.2420], 'Parco delle Cave (Lago Canneto)': [45.5230, 10.2500],
-  'Parco Vento del Mascheda': [45.5140, 10.2690], 'Parco Ducos 1': [45.5270, 10.2380], 'Viridarium Santa Giulia': [45.5390, 10.2230],
-  'Torri Gemelle': [45.5370, 10.2220], 'Parco dell\'Acqua': [45.5350, 10.2180], 'Parco Sant\'Antonino': [45.5380, 10.2100],
-  'Sentiero delle Pozze in Maddalena': [45.5560, 10.2750], 'Da Torricella ai Campiani': [45.5600, 10.1800],
-  'Su e giù dal Castello di Brescia': [45.5380, 10.2250], 'Dal Polivalente al Monte Peso': [45.5700, 10.1900],
-  'Giro della Collina di S. Anna': [45.5450, 10.1850], 'Dal Parco Castelli sulla Green Way': [45.5480, 10.2150],
-  'Il Sentiero della Resistenza in Maddalena': [45.5560, 10.2750], 'Il Mella dal Polivalente a Collebeato': [45.5700, 10.1900]
-};
+function updateFilters(type, val) { state['filter'+type.charAt(0).toUpperCase() + type.slice(1)] = val; refreshDropdowns(); renderList(); }
 
-const MEETING_POINTS = {
-  'Parco Castelli': 'Ingresso principale vicino chiosco/bar',
-  'Parco Corridoni': 'Cartello di intitolazione parco',
-  'Parco Jan Palach': 'Dietro fontana acqua pubblica',
-  'Parco Belvedere': 'Ingresso principale',
-  'Parco Casazza': 'Davanti cartello intitolazione parco',
-  'Parco Marcolini (Ori Martin)': 'Ingresso del parco',
-  'Parco Torricella di Sotto': 'Giochi per bambini al centro del parco',
-  'Parco delle Stagioni': 'All’ingresso del parco',
-  'Parco dei Poeti': 'All’ingresso centrale del parco',
-  'Parco Basaglia': 'Davanti ai giochi per i bambini',
-  'Giardini Via Fura': 'Alla piastra di basket',
-  'Parco Giffoni': 'All’ingresso del parco',
-  'Parco Pescheto': 'Zona giochi/fontanella',
-  'Parco Via Malibran': 'All’ingresso',
-  'Parco Avis': 'Vicino ai giochi',
-  'Parco Ragnoli': 'All’ingresso della scuola Tovini / Piastra basket',
-  'Parco Ducos 2': 'Ingresso parco lato San Polo (Nave di Harlock)',
-  'Giardini De André': 'Presso piastra basket',
-  'Parco delle Cave (Lago Canneto)': 'Cancello ingresso Lago Canneto / Via Brocchi',
-  'Parco dell\'Acqua': 'Vicino ai giochi per i bambini',
-  'Torri Gemelle': 'Sul vialetto centrale',
-  'Viridarium Santa Giulia': 'Ingresso aperto fino alle 9'
-};
+function buildFilters() {
+  const wrap = document.getElementById('timeline-scroll'); wrap.innerHTML = '';
+  
+  const sqAll = document.createElement('div');
+  sqAll.className = 'date-square all-dates ' + (state.filterDate === 'all' ? 'active' : '');
+  sqAll.innerHTML = `<div class="ds-day" style="font-size:0.9rem">TUTTE</div>`;
+  sqAll.onclick = () => { state.filterDate = 'all'; buildFilters(); refreshDropdowns(); renderList(); };
+  wrap.appendChild(sqAll);
 
+  let cur = new Date(TODAY);
+  while (cur <= END) {
+    if (cur >= START) {
+      const dStr = formatDate(cur);
+      const el = document.createElement('div');
+      el.className = 'date-square ' + (state.filterDate === dStr ? 'active' : '');
+      el.innerHTML = `<div class="ds-dow">${DAYS_IT[cur.getDay()]}</div><div class="ds-day">${cur.getDate()}</div><div class="ds-month">${MONTHS_IT[cur.getMonth()].substring(0,3)}</div>`;
+      el.onclick = () => { state.filterDate = dStr; buildFilters(); refreshDropdowns(); renderList(); };
+      wrap.appendChild(el);
+    }
+    cur.setDate(cur.getDate()+1);
+  }
+  refreshDropdowns();
+}
+
+function refreshDropdowns() {
+  const matches = (act, checkDate, checkZone, checkPark, checkAct, checkTime) => {
+    if (checkZone !== 'all' && act.zone !== checkZone) return false;
+    if (checkPark !== 'all' && act.park !== checkPark) return false;
+    if (checkAct !== 'all' && act.name !== checkAct) return false;
+    
+    if (checkTime !== 'all') {
+      const hour = parseInt(act.timeStart.split(':')[0]);
+      const isMattina = hour < 13;
+      if (checkTime === 'mattina' && !isMattina) return false;
+      if (checkTime === 'sera' && isMattina) return false;
+    }
+    if (checkDate !== 'all') {
+      let hasDate = false; getOccurrences(act).forEach(d => { if (formatDate(d) === checkDate) hasDate = true; });
+      if (!hasDate) return false;
+    }
+    return true;
+  };
+
+  const validZones = new Set(), validParks = new Set(), validActs = new Set();
+  ACTIVITIES.forEach(act => {
+    if (matches(act, state.filterDate, 'all', state.filterPark, state.filterAct, state.filterTime)) validZones.add(act.zone);
+    if (matches(act, state.filterDate, state.filterZone, 'all', state.filterAct, state.filterTime)) validParks.add(act.park);
+    if (matches(act, state.filterDate, state.filterZone, state.filterPark, 'all', state.filterTime)) validActs.add(act.name);
+  });
+
+  const zoneSel = document.getElementById('filter-zone'); zoneSel.innerHTML = '<option value="all">Tutte le Zone</option>';
+  [...validZones].sort().forEach(z => zoneSel.innerHTML += `<option value="${z}" ${state.filterZone===z?'selected':''}>Zona ${z}</option>`);
+
+  const parkSel = document.getElementById('filter-park'); parkSel.innerHTML = '<option value="all">Tutti i Parchi</option>';
+  [...validParks].sort().forEach(p => parkSel.innerHTML += `<option value="${p}" ${state.filterPark===p?'selected':''}>${p}</option>`);
+
+  const actSel = document.getElementById('filter-acts'); actSel.innerHTML = '<option value="all">Tutti gli Sport</option>';
+  [...validActs].sort().forEach(a => actSel.innerHTML += `<option value="${a}" ${state.filterAct===a?'selected':''}>${a}</option>`);
+
+  const timeSel = document.getElementById('filter-time');
+  timeSel.innerHTML = `
+    <option value="all" ${state.filterTime==='all'?'selected':''}>Qualsiasi Orario</option>
+    <option value="mattina" ${state.filterTime==='mattina'?'selected':''}>Mattina (fino alle 13)</option>
+    <option value="sera" ${state.filterTime==='sera'?'selected':''}>Pomeriggio/Sera (dopo le 13)</option>
+  `;
+}
+
+function renderList() {
+  const list = document.getElementById('activities-list'); list.innerHTML = '';
+  let items = [];
+  
+  ACTIVITIES.forEach(act => {
+    getOccurrences(act).forEach(d => {
+      const dStr = formatDate(d);
+      if (state.filterDate !== 'all' && state.filterDate !== dStr) return;
+      if (state.filterDate === 'all' && d < TODAY && dStr !== formatDate(TODAY)) return; 
+      if (state.filterZone !== 'all' && act.zone !== state.filterZone) return;
+      if (state.filterPark !== 'all' && act.park !== state.filterPark) return;
+      if (state.filterAct !== 'all' && act.name !== state.filterAct) return;
+      
+      if (state.filterTime !== 'all') {
+        const hour = parseInt(act.timeStart.split(':')[0]);
+        const isMattina = hour < 13;
+        if (state.filterTime === 'mattina' && !isMattina) return;
+        if (state.filterTime === 'sera' && isMattina) return;
+      }
+      items.push({ act, dStr, d });
+    });
+  });
+
+  items.sort((a,b) => (a.d - b.d) || a.act.timeStart.localeCompare(b.act.timeStart));
+  const shown = items.slice(0, 150); 
+  
+  document.getElementById('activities-subtitle').textContent = items.length ? `${items.length} eventi in programma` : 'Nessun evento corrispondente';
+
+  if (!items.length) {
+    list.innerHTML = '<div class="empty-msg">Nessuna attività trovata.<br>Prova a modificare i filtri o scorrere le date.</div>';
+    return;
+  }
+
+  let lastDate = '';
+  shown.forEach(({act, dStr, d}) => {
+    if (state.filterDate === 'all' && dStr !== lastDate) {
+      const isToday = formatDate(TODAY)===dStr;
+      list.innerHTML += `<div class="date-divider">${isToday?'Oggi – ':''}${DAYS_IT[d.getDay()]} ${d.getDate()} ${MONTHS_IT[d.getMonth()]}</div>`;
+      lastDate = dStr;
+    }
+
+    const saved = isSaved(act.id, dStr);
+    const colorClass = 'color-' + (COLORS[act.name] || 'ginnastica');
+    
+    const card = document.createElement('div');
+    card.className = `act-card ${colorClass}`;
+    card.innerHTML = `
+      <div class="act-card-body" onclick="openModal(${act.id},'${dStr}')">
+        <div class="act-card-top"><div class="act-name">${act.name}</div><div class="act-time-badge">${act.timeStart}</div></div>
+        <div class="act-park"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg> ${act.park}</div>
+      </div>
+      <div class="act-card-bookmark ${saved?'saved':''}" onclick="event.stopPropagation();quickSave(${act.id},'${dStr}',this)">
+        <svg viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+    `;
+    list.appendChild(card);
+  });
+  
+  document.getElementById('page-activities').scrollTop = 0;
+}
+</script>
+
+<script>
 const ACTIVITIES = [
   { id:1, name:'Pilates', park:'Parco Castelli', zone:'Nord', address:'Via Benedetto Castelli', days:[2,4], timeStart:'20:00', timeEnd:'21:00' },
   { id:2, name:'Allenamento Funzionale', park:'Parco Corridoni', zone:'Nord', address:'Via Corridoni', days:[2,4], timeStart:'19:00', timeEnd:'20:00' },
@@ -495,9 +536,9 @@ const ACTIVITIES = [
   { id:6, name:'Pilates', park:'Parco Marcolini (Ori Martin)', zone:'Nord', address:'Via Monte Nevoso', days:[2,4], timeStart:'09:00', timeEnd:'10:00' },
   { id:7, name:'Disc Golf', park:'Parco Marcolini (Ori Martin)', zone:'Nord', address:'Via Monte Nevoso', days:[3,5], timeStart:'17:00', timeEnd:'19:00' },
   { id:8, name:'Pilates', park:'Parco Torricella di Sotto', zone:'Ovest', address:'Via Torricella di Sotto', days:[2,4], timeStart:'20:15', timeEnd:'21:15' },
-  { id:9, name:'Ginnastica per Tutti', park:'Parco delle Stagioni', zone:'Ovest', address:'Via Collebeato 18', days:[2,4], timeStart:'09:00', timeEnd:'10:00' },
+  { id:9, name:'Ginnastica per Tutti', park:'Parco delle Stagioni', zone'Ovest', address:'Via Collebeato 18', days:[2,4], timeStart:'09:00', timeEnd:'10:00' },
   { id:10, name:'Ginnastica Posturale', park:'Parco delle Stagioni', zone:'Ovest', address:'Via Collebeato 18', days:[1,3], timeStart:'20:00', timeEnd:'21:00' },
-  { id:11, name:'Vinyasa Yoga', park:'Parco dei Poeti', zone:'Ovest', address:'Via I^ Villaggio Badia', days:[3,5], timeStart:'08:00', timeEnd:'09:00' },
+  { id:11, name:'Vinyasa Yoga', park:'Parco dei Poeti', zone:'Ovest', address:'Via Prima Villaggio Badia', days:[3,5], timeStart:'08:00', timeEnd:'09:00' },
   { id:12, name:'Allenamento Funzionale', park:'Parco Maggiolini', zone:'Ovest', address:'Via Passo Gavia', days:[1,3], timeStart:'20:00', timeEnd:'21:00' },
   { id:13, name:'Ginnastica per Tutti', park:'Parco Marcolini (Violino)', zone:'Ovest', address:'Villaggio Violino', days:[2,4], timeStart:'08:30', timeEnd:'09:30' },
   { id:14, name:'Pilates', park:'Parco Frugoni', zone:'Ovest', address:'Viale Caduti del Lavoro', days:[3,5], timeStart:'19:00', timeEnd:'20:00' },
@@ -537,395 +578,66 @@ const ACTIVITIES = [
   { id:108, name:'Trekking ed Ambiente', park:'Il Mella dal Polivalente a Collebeato', zone:'Ovest', address:'Via Collebeato', exactDates:['2026-07-22'], timeStart:'07:30', timeEnd:'09:30', notes:NOTES_TREKK, link:LINKS.trekking }
 ];
 
-const COLORS = { 'Ginnastica per Tutti': 'ginnastica', 'Tai Chi': 'taichi', 'Pilates': 'pilates', 'Nordic Walking': 'nordic', 'Vinyasa Yoga': 'yoga', 'Allenamento Funzionale': 'funzionale', 'Corri e Cammina': 'corri', 'Avviamento alla Canoa': 'canoa', 'Trekking ed Ambiente': 'trekking', 'SUP': 'sup', 'Yoga SUP': 'yogasup', 'Disc Golf': 'discgolf', 'Danze Popolari': 'danze', 'Ginnastica Posturale': 'posturale', 'Body Tonic': 'bodytonic', 'Acro-Yoga': 'yoga' };
-const HEX = { ginnastica:'#66bb6a', taichi:'#5c6bc0', pilates:'#ab47bc', nordic:'#ff7043', yoga:'#7e57c2', funzionale:'#ef5350', corri:'#ffa726', canoa:'#26c6da', trekking:'#8d6e63', sup:'#29b6f6', yogasup:'#ba68c8', discgolf:'#d4e157', danze:'#ec407a', posturale:'#26a69a', bodytonic:'#ff5252' };
-
-let state = {
-  saved: {}, done: {}, name: '', address: '', coords: null,
-  filterDate: 'all', filterZone: 'all', filterPark: 'all', filterAct: 'all', filterDist: 'all',
-  calViewYear: 2026, calViewMonth: 5, calSelectedDate: null, modalActivity: null,
+const MEETING_POINTS = {
+  'Parco Castelli': 'Ingresso principale vicino chiosco/bar',
+  'Parco Corridoni': 'Angolo via Corridoni / via Carnia (cartello di intitolazione parco)',
+  'Parco Jan Palach': 'Via Niccolò Tommaseo (dietro fontana acqua pubblica)',
+  'Parco Belvedere': 'Via GB Scarella (ingresso principale)',
+  'Parco Casazza': 'Via Reggio (davanti cartello intitolazione parco)',
+  'Parco Marcolini (Ori Martin)': 'Via Monte Nevoso (ingresso del parco)',
+  'Parco Torricella di Sotto': 'Via Torricella di Sotto (giochi per bambini al centro del parco)',
+  'Parco delle Stagioni': 'Via Collebeato 18 (all’ingresso del parco)',
+  'Parco dei Poeti': 'Via Prima Villaggio Badia (all’ingresso centrale del parco)',
+  'Parco Maggiolini': 'Via Passo Gavia',
+  'Parco Marcolini (Violino)': 'Villaggio Violino',
+  'Parco Frugoni': 'Viale Caduti del Lavoro 43',
+  'Parco Basaglia': 'Viale Duca degli Abruzzi (davanti ai giochi per i bambini)',
+  'Giardini Via Fura': 'Via Fura (alla piastra di basket)',
+  'Parco Giffoni': 'Traversa XII, Villaggio Sereno (all’ingresso del parco)',
+  'Parco Pescheto': 'Via Lamarmora / Via Corsica (zona giochi/fontanella)',
+  'Parco Martinoni': 'Via Zara (Don Bosco)',
+  'Parco Via Malibran': 'Via Malibran (all’ingresso)',
+  'Parco della Pace': 'Via della Cascina Tesa (Folzano)',
+  'Parco Avis': 'Via Seriola Vescovada, Buffalora (vicino ai giochi)',
+  'Parco Ragnoli': 'Via Violante, S. Polo Case (all’ingresso della scuola Tovini)',
+  'Parco Ducos 2': 'Via Lonati / Strada Antica Mantovana (ingresso lato S. Polo - Nave di Harlock)',
+  'Parco Ducos 1': 'Viale Venezia',
+  'Giardini De André': 'Via Tiziano, San Polo Parco (presso piastra basket)',
+  'Parco Vento del Mascheda': 'Via Sant’Orsola 138, Caionvico',
+  'Parco delle Cave (Lago Canneto)': 'Via Cerca (cancello ingresso Lago Canneto) o Via Brocchi (Canoa/SUP)',
+  'Parco dell\'Acqua': 'Largo Torrelunga 7 (vicino ai giochi per i bambini)',
+  'Torri Gemelle': 'Via XXV Aprile / Spalti San Marco (sul vialetto centrale)',
+  'Parco Sant\'Antonino': 'Via Marconi (presso ingresso Metropolitana)',
+  'Viridarium Santa Giulia': 'Via dei Musei 81/b (ingresso aperto fino alle 9)',
+  'Sentiero delle Pozze in Maddalena': 'Via della Maddalena, 70 (Piazzale Ristorante Le Cavrelle)',
+  'Da Torricella ai Campiani': 'Via Valle Bresciana (Parcheggio Ristorante Il Melograno)',
+  'Su e giù dal Castello di Brescia': 'Piazza Arnaldo (lato est, fontana granaio)',
+  'Dal Polivalente al Monte Peso': 'Via Collebeato / Parco 4 Stagioni (Parcheggio Polivalente)',
+  'Giro della Collina di S. Anna': 'Via Badia (Parcheggio Centro Sportivo)',
+  'Dal Parco Castelli sulla Green Way': 'Ingresso Parco Castelli (zona chiosco bar legno)',
+  'Il Sentiero della Resistenza in Maddalena': 'Via della Maddalena, 70 (Piazzale Ristorante Le Cavrelle)',
+  'Il Mella dal Polivalente a Collebeato': 'Via Collebeato / Parco 4 Stagioni (Parcheggio Polivalente)'
 };
-let tempCoords = null;
-let typingTimer;
 
-function getDistance(lat1, lon1, lat2, lon2) {
-  const R = 6371; const dLat = (lat2-lat1)*Math.PI/180; const dLon = (lon2-lon1)*Math.PI/180;
-  const a = Math.sin(dLat/2)*Math.sin(dLat/2) + Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLon/2)*Math.sin(dLon/2);
-  const straight = R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-  return straight * 1.6;
-}
-
-async function fetchGeocode(query, limit = 10) {
-  try {
-    let url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&countrycodes=it&addressdetails=1&limit=${limit}`;
-    let res = await fetch(url);
-    let data = await res.json();
-    if (data && data.length > 0) return data;
-    
-    let fallbackQuery = query.replace(/\b\d{5}\b/g, '').replace(/\bBS\b/ig, '').replace(/[(),]/g, ' ').replace(/\s+/g, ' ').trim();
-    if (fallbackQuery !== query && fallbackQuery.length > 3) {
-      let urlFb = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(fallbackQuery)}&countrycodes=it&addressdetails=1&limit=${limit}`;
-      let resFb = await fetch(urlFb);
-      let dataFb = await resFb.json();
-      return dataFb;
-    }
-  } catch (e) {}
-  return [];
-}
-
-function debounceSearch(query, source) {
-  clearTimeout(typingTimer);
-  tempCoords = null;
-  const box = document.getElementById(source + '-suggestions');
-  if (!query || query.length < 3) { box.style.display = 'none'; return; }
-  
-  typingTimer = setTimeout(async () => {
-    const data = await fetchGeocode(query, 10);
-    box.innerHTML = '';
-    if (data && data.length > 0) {
-      let unique = [];
-      data.forEach(item => {
-        let addr = item.address || {};
-        let road = addr.road || addr.square || addr.pedestrian || '';
-        if (!road && item.name) road = item.name;
-        if (!road) return;
-        
-        let city = addr.city || addr.town || addr.village || addr.municipality || '';
-        
-        let houseNumber = addr.house_number || '';
-        if (!houseNumber) {
-            let match = query.match(/\b\d+[a-zA-Z]?\b/);
-            if (match) houseNumber = match[0];
-        }
-        
-        let display = road;
-        if (houseNumber) display += ` ${houseNumber}`;
-        if (city) display += `, ${city}`;
-        
-        if (!unique.find(x => x.name === display)) {
-           unique.push({ lat: item.lat, lon: item.lon, name: display });
-        }
-      });
-      
-      unique.slice(0,5).forEach(item => {
-        const div = document.createElement('div');
-        div.className = 'suggestion-item';
-        div.textContent = item.name;
-        div.onclick = () => selectAddress(item.lat, item.lon, item.name, source);
-        box.appendChild(div);
-      });
-      
-      if(unique.length === 0) box.innerHTML = '<div class="suggestion-item" style="color:var(--text-light)">Indirizzo non preciso, prova ad aggiungere la città</div>';
-      box.style.display = 'block';
-    } else {
-      box.innerHTML = '<div class="suggestion-item" style="color:var(--text-light)">Nessun indirizzo trovato</div>';
-      box.style.display = 'block';
-    }
-  }, 500);
-}
-
-function selectAddress(lat, lon, name, source) {
-  document.getElementById(source + '-address').value = name;
-  tempCoords = { lat: parseFloat(lat), lon: parseFloat(lon) };
-  document.getElementById(source + '-suggestions').style.display = 'none';
-}
-
-document.addEventListener('click', (e) => {
-  if(!e.target.closest('.input-field')) {
-    document.getElementById('welcome-suggestions').style.display = 'none';
-    document.getElementById('settings-suggestions').style.display = 'none';
-  }
-});
-
-function loadState() {
-  const dt = localStorage.getItem('sap2026_user');
-  if (dt) {
-    const u = JSON.parse(dt);
-    state.name = u.name||''; state.address = u.address||''; state.coords = u.coords||null;
-    updateTitles(); document.getElementById('welcome-overlay').style.display = 'none';
-  } else {
-    document.getElementById('welcome-overlay').style.display = 'flex';
-  }
-  try { const s = localStorage.getItem('sap2026_state'); if (s) { const p = JSON.parse(s); state.saved = p.saved||{}; state.done = p.done||{}; } } catch(e){}
-}
-function saveState() { localStorage.setItem('sap2026_state', JSON.stringify({saved:state.saved,done:state.done})); }
-
-async function saveUserData(source) {
-  const btn = source === 'welcome' ? document.getElementById('btn-welcome-save') : document.getElementById('btn-settings-save');
-  btn.textContent = "Geolocalizzazione in corso..."; btn.disabled = true;
-  
-  const nameVal = document.getElementById(source+'-name').value.trim();
-  const addrVal = document.getElementById(source+'-address').value.trim();
-  
-  state.name = nameVal; state.address = addrVal;
-  
-  if (addrVal) {
-    if (tempCoords) {
-      state.coords = tempCoords;
-    } else {
-      const data = await fetchGeocode(addrVal, 1);
-      if (data && data.length > 0) {
-        state.coords = { lat: parseFloat(data[0].lat), lon: parseFloat(data[0].lon) };
-      } else {
-        state.coords = null;
-        showToast("Indirizzo non trovato su mappa. La distanza è disattivata.");
-      }
-    }
-  } else {
-    state.coords = null;
-  }
-  
-  localStorage.setItem('sap2026_user', JSON.stringify({name: state.name, address: state.address, coords: state.coords}));
-  updateTitles();
-  
-  btn.textContent = source === 'welcome' ? "Salva e Inizia" : "Salva Modifiche"; btn.disabled = false;
-  if(source === 'welcome') document.getElementById('welcome-overlay').style.display = 'none';
-  else closeSettings();
-  
-  refreshDropdowns(); renderList(); showToast("Dati salvati con successo!");
-}
-
-function updateTitles() {
-  if (state.name) {
-    document.getElementById('cal-title').textContent = `Il Calendario di ${state.name}`;
-    document.getElementById('hist-title').textContent = `I Traguardi di ${state.name}`;
-  }
-}
-
-function openSettings() {
-  document.getElementById('settings-name').value = state.name;
-  document.getElementById('settings-address').value = state.address;
-  document.getElementById('settings-overlay').classList.add('open');
-}
-function closeSettings(e) {
-  if (e && e.target !== document.getElementById('settings-overlay')) return;
-  document.getElementById('settings-overlay').classList.remove('open');
-}
-function forceAppUpdate() {
-  const url = new URL(window.location.href);
-  url.searchParams.set('v', new Date().getTime());
-  window.location.href = url.toString();
-}
-
-function formatDate(d) { return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0'); }
-function parseDate(s) { const [y,m,d] = s.split('-').map(Number); return new Date(y, m-1, d); }
-function getOccurrences(act) {
-  const dates = [];
-  if (act.exactDates) { act.exactDates.forEach(d => dates.push(parseDate(d))); return dates; }
-  let cur = new Date(START);
-  while (cur <= END) { if (act.days.includes(cur.getDay())) dates.push(new Date(cur)); cur.setDate(cur.getDate()+1); }
-  return dates;
-}
-
-function isSaved(id, d) { return !!(state.saved[id] && state.saved[id].includes(d)); }
-function isDone(id, d) { return !!state.done[id + '-' + d]; }
-function toggleSave(id, d) {
-  if (!state.saved[id]) state.saved[id] = [];
-  const idx = state.saved[id].indexOf(d);
-  if (idx >= 0) { state.saved[id].splice(idx,1); if(!state.saved[id].length) delete state.saved[id]; }
-  else state.saved[id].push(d);
-  saveState();
-}
-function toggleDone(id, d) {
-  const k = id + '-' + d; if (state.done[k]) delete state.done[k]; else state.done[k] = true;
-  saveState();
-}
-
-function showToast(msg) {
-  const t = document.getElementById('toast'); t.textContent = msg; t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 2500);
-}
-
-function switchPage(name) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById('page-' + name).classList.add('active');
-  const activeBtn = document.querySelector(`.nav-btn[data-page="${name}"]`);
-  if(activeBtn) activeBtn.classList.add('active');
-  
-  if (name === 'calendar') renderCalendar();
-  if (name === 'history') renderHistory();
-}
-
-function switchTab(tabId, el) {
-  document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-  document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
-  el.classList.add('active');
-  document.getElementById(tabId).classList.add('active');
-}
-
-// TIMELINE & FILTERS
-function toggleFilters() {
-  const f = document.getElementById('advanced-filters'); const b = document.getElementById('btn-toggle-filters');
-  const isOpen = f.classList.contains('open');
-  if (isOpen) { f.classList.remove('open'); b.classList.remove('open'); }
-  else { f.classList.add('open'); b.classList.add('open'); }
-}
-
-function buildFilters() {
-  const wrap = document.getElementById('timeline-scroll'); wrap.innerHTML = '';
-  
-  const sqAll = document.createElement('div');
-  sqAll.className = 'date-square all-dates ' + (state.filterDate === 'all' ? 'active' : '');
-  sqAll.innerHTML = `<div class="ds-day" style="font-size:0.9rem">TUTTE</div>`;
-  sqAll.onclick = () => { state.filterDate = 'all'; buildFilters(); refreshDropdowns(); renderList(); };
-  wrap.appendChild(sqAll);
-
-  let cur = new Date(TODAY);
-  while (cur <= END) {
-    if (cur >= START) {
-      const dStr = formatDate(cur);
-      const el = document.createElement('div');
-      el.className = 'date-square ' + (state.filterDate === dStr ? 'active' : '');
-      el.innerHTML = `<div class="ds-dow">${DAYS_IT[cur.getDay()]}</div><div class="ds-day">${cur.getDate()}</div><div class="ds-month">${MONTHS_IT[cur.getMonth()].substring(0,3)}</div>`;
-      el.onclick = () => { state.filterDate = dStr; buildFilters(); refreshDropdowns(); renderList(); };
-      wrap.appendChild(el);
-    }
-    cur.setDate(cur.getDate()+1);
-  }
-  refreshDropdowns();
-}
-
-function refreshDropdowns() {
-  const matches = (act, checkDate, checkZone, checkPark, checkAct, checkDist) => {
-    if (checkZone !== 'all' && act.zone !== checkZone) return false;
-    if (checkPark !== 'all' && act.park !== checkPark) return false;
-    if (checkAct !== 'all' && act.name !== checkAct) return false;
-    let dist = null;
-    if (state.coords && PARK_COORDS[act.park]) {
-      dist = getDistance(state.coords.lat, state.coords.lon, PARK_COORDS[act.park][0], PARK_COORDS[act.park][1]);
-    }
-    if (checkDist !== 'all' && (dist === null || dist > parseInt(checkDist))) return false;
-    if (checkDate !== 'all') {
-      let hasDate = false; getOccurrences(act).forEach(d => { if (formatDate(d) === checkDate) hasDate = true; });
-      if (!hasDate) return false;
-    }
-    return true;
-  };
-
-  const validZones = new Set(), validParks = new Set(), validActs = new Set();
-  let hasD3 = false, hasD5 = false, hasD10 = false;
-
-  ACTIVITIES.forEach(act => {
-    let dist = null;
-    if (state.coords && PARK_COORDS[act.park]) dist = getDistance(state.coords.lat, state.coords.lon, PARK_COORDS[act.park][0], PARK_COORDS[act.park][1]);
-    if (matches(act, state.filterDate, 'all', state.filterPark, state.filterAct, state.filterDist)) validZones.add(act.zone);
-    if (matches(act, state.filterDate, state.filterZone, 'all', state.filterAct, state.filterDist)) validParks.add(act.park);
-    if (matches(act, state.filterDate, state.filterZone, state.filterPark, 'all', state.filterDist)) validActs.add(act.name);
-    if (matches(act, state.filterDate, state.filterZone, state.filterPark, state.filterAct, 'all')) {
-      if (dist !== null) { if (dist <= 3) hasD3 = true; if (dist <= 5) hasD5 = true; if (dist <= 10) hasD10 = true; }
-    }
-  });
-
-  const zoneSel = document.getElementById('filter-zone'); zoneSel.innerHTML = '<option value="all">Tutte le Zone</option>';
-  [...validZones].sort().forEach(z => zoneSel.innerHTML += `<option value="${z}" ${state.filterZone===z?'selected':''}>Zona ${z}</option>`);
-  if (!validZones.has(state.filterZone) && state.filterZone !== 'all') { state.filterZone = 'all'; zoneSel.value = 'all'; }
-
-  const parkSel = document.getElementById('filter-park'); parkSel.innerHTML = '<option value="all">Tutti i Parchi</option>';
-  [...validParks].sort().forEach(p => parkSel.innerHTML += `<option value="${p}" ${state.filterPark===p?'selected':''}>${p}</option>`);
-  if (!validParks.has(state.filterPark) && state.filterPark !== 'all') { state.filterPark = 'all'; parkSel.value = 'all'; }
-
-  const actSel = document.getElementById('filter-acts'); actSel.innerHTML = '<option value="all">Tutti gli Sport</option>';
-  [...validActs].sort().forEach(a => actSel.innerHTML += `<option value="${a}" ${state.filterAct===a?'selected':''}>${a}</option>`);
-  if (!validActs.has(state.filterAct) && state.filterAct !== 'all') { state.filterAct = 'all'; actSel.value = 'all'; }
-
-  const distSel = document.getElementById('filter-dist'); distSel.innerHTML = '<option value="all">Qualsiasi Distanza</option>';
-  if (!state.coords) {
-    distSel.disabled = true; distSel.innerHTML = '<option value="all">Indirizzo non impostato</option>'; state.filterDist = 'all';
-  } else {
-    distSel.disabled = false;
-    if (hasD3) distSel.innerHTML += `<option value="3" ${state.filterDist==='3'?'selected':''}>Meno di 3 km</option>`;
-    if (hasD5) distSel.innerHTML += `<option value="5" ${state.filterDist==='5'?'selected':''}>Meno di 5 km</option>`;
-    if (hasD10) distSel.innerHTML += `<option value="10" ${state.filterDist==='10'?'selected':''}>Meno di 10 km</option>`;
-    const validDist = (state.filterDist === '3' && hasD3) || (state.filterDist === '5' && hasD5) || (state.filterDist === '10' && hasD10) || state.filterDist === 'all';
-    if (!validDist) { state.filterDist = 'all'; distSel.value = 'all'; }
-  }
-}
-
-function updateFilters(type, val) { state['filter'+type.charAt(0).toUpperCase() + type.slice(1)] = val; refreshDropdowns(); renderList(); }
-
-function renderList() {
-  const list = document.getElementById('activities-list'); list.innerHTML = '';
-  let items = [];
-  
-  ACTIVITIES.forEach(act => {
-    let actDist = null;
-    if (state.coords && PARK_COORDS[act.park]) actDist = getDistance(state.coords.lat, state.coords.lon, PARK_COORDS[act.park][0], PARK_COORDS[act.park][1]);
-    
-    getOccurrences(act).forEach(d => {
-      const dStr = formatDate(d);
-      if (state.filterDate !== 'all' && state.filterDate !== dStr) return;
-      if (state.filterDate === 'all' && d < TODAY && dStr !== formatDate(TODAY)) return; 
-      if (state.filterZone !== 'all' && act.zone !== state.filterZone) return;
-      if (state.filterPark !== 'all' && act.park !== state.filterPark) return;
-      if (state.filterAct !== 'all' && act.name !== state.filterAct) return;
-      if (state.filterDist !== 'all' && actDist !== null && actDist > parseInt(state.filterDist)) return;
-      items.push({ act, dStr, d, actDist });
-    });
-  });
-
-  items.sort((a,b) => (a.d - b.d) || a.act.timeStart.localeCompare(b.act.timeStart));
-  const shown = items.slice(0, 150); 
-  
-  document.getElementById('activities-subtitle').textContent = items.length ? `${items.length} eventi in programma` : 'Nessun evento corrispondente';
-
-  if (!items.length) {
-    list.innerHTML = '<div class="empty-msg">Nessuna attività trovata.<br>Prova a modificare i filtri o scorrere le date.</div>';
-    return;
-  }
-
-  let lastDate = '';
-  shown.forEach(({act, dStr, d, actDist}) => {
-    if (state.filterDate === 'all' && dStr !== lastDate) {
-      const isToday = formatDate(TODAY)===dStr;
-      list.innerHTML += `<div class="date-divider">${isToday?'Oggi – ':''}${DAYS_IT[d.getDay()]} ${d.getDate()} ${MONTHS_IT[d.getMonth()]}</div>`;
-      lastDate = dStr;
-    }
-
-    const saved = isSaved(act.id, dStr);
-    const colorClass = 'color-' + (COLORS[act.name] || 'ginnastica');
-    const distText = actDist !== null ? `<div class="act-dist">~${actDist.toFixed(1)}km</div>` : '';
-    
-    const card = document.createElement('div');
-    card.className = `act-card ${colorClass}`;
-    card.innerHTML = `
-      <div class="act-card-body" onclick="openModal(${act.id},'${dStr}', ${actDist})">
-        <div class="act-card-top"><div class="act-name">${act.name}</div><div style="display:flex;gap:6px;align-items:center;">${distText}<div class="act-time-badge">${act.timeStart}</div></div></div>
-        <div class="act-park"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg> ${act.park}</div>
-      </div>
-      <div class="act-card-bookmark ${saved?'saved':''}" onclick="event.stopPropagation();quickSave(${act.id},'${dStr}',this)">
-        <svg viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </div>
-    `;
-    list.appendChild(card);
-  });
-  
-  document.getElementById('page-activities').scrollTop = 0;
-}
-
-function quickSave(id, dStr, el) { toggleSave(id, dStr); const s = isSaved(id, dStr); el.classList.toggle('saved', s); showToast(s ? 'Aggiunto al calendario!' : 'Rimosso dal calendario'); }
-
-// MODAL SCHEDA ATTIVITÀ
-function openModal(id, dStr, actDist) {
+function openModal(id, dStr) {
   const act = ACTIVITIES.find(a=>a.id===id); if (!act) return;
   state.modalActivity = { act, dStr };
-  const saved = isSaved(id, dStr); const done = isDone(id, dStr);
+  const saved = isSaved(act.id, dStr); const done = isDone(act.id, dStr);
 
   document.getElementById('modal-name').textContent = act.name;
   document.getElementById('modal-color-bar').style.background = HEX[COLORS[act.name]] || HEX.ginnastica;
   
-  const mapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(act.park+', '+act.address+', Brescia')}`;
-  const distHtml = actDist ? `<div class="modal-desc" style="margin-bottom:8px"><strong>~${actDist.toFixed(1)} km</strong> da casa tua</div>` : `<div class="modal-desc" style="margin-bottom:8px">${act.address}</div>`;
+  const mapsUrl = `https://maps.google.com/?q=${encodeURIComponent(act.park+', '+act.address+', Brescia')}`;
   const meetingHtml = MEETING_POINTS[act.park] ? `<div class="meeting-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/></svg><div><strong>Punto di ritrovo:</strong><br>${MEETING_POINTS[act.park]}</div></div>` : '';
 
   let html = `
-    <div class="modal-row"><svg class="modal-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+    <div class="modal-row"><svg class="modal-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
       <div><div class="modal-label">Data e Ora</div><div class="modal-value">${dStr.split('-').reverse().join('/')}</div><div class="modal-desc" style="color:var(--text); font-weight:700;">${act.timeStart} – ${act.timeEnd}</div></div></div>
-    <div class="modal-row"><svg class="modal-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20"/><line x1="2" y1="12" x2="22" y2="12"/></svg>
+    <div class="modal-row"><svg class="modal-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20"/><line x1="2" y1="12" x2="22" y2="12"/></svg>
       <div><div class="modal-label">Info Attività</div><div class="modal-value">${act.name}</div><div class="modal-desc">${DESCRIPTIONS[act.name]||''}</div></div></div>
-    <div class="modal-row"><svg class="modal-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
-      <div><div class="modal-label">Luogo (Zona ${act.zone})</div><div class="modal-value">${act.park}</div>${distHtml}
-        <a class="modal-maps-btn" href="${mapsUrl}" target="_blank"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg> Apri in Maps</a>
+    <div class="modal-row"><svg class="modal-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+      <div><div class="modal-label">Luogo (Zona ${act.zone})</div><div class="modal-value">${act.park}</div><div class="modal-desc" style="margin-bottom:8px">${act.address}</div>
+        <a class="modal-maps-btn" href="${mapsUrl}" target="_blank"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg> Apri in Maps</a>
         ${meetingHtml}
       </div>
     </div>
@@ -958,12 +670,6 @@ function openModal(id, dStr, actDist) {
   document.getElementById('modal-overlay').classList.add('open');
 }
 
-function closeModal(e) { if (e && e.target !== document.getElementById('modal-overlay')) return; document.getElementById('modal-overlay').classList.remove('open'); }
-function addSaveFromModal() { const { act, dStr } = state.modalActivity; toggleSave(act.id, dStr); showToast('Aggiunto al calendario!'); closeModal(); renderList(); renderCalendar(); }
-function removeSaveFromModal() { const { act, dStr } = state.modalActivity; toggleSave(act.id, dStr); showToast('Rimosso dal calendario.'); closeModal(); renderList(); renderCalendar(); }
-function removeDoneFromModal() { const { act, dStr } = state.modalActivity; toggleDone(act.id, dStr); showToast('Rimosso dallo Storico.'); closeModal(); renderHistory(); renderCalendar(); }
-
-// CALENDAR
 function renderCalendar() {
   const year = state.calViewYear; const month = state.calViewMonth;
   document.getElementById('cal-month-title').textContent = MONTHS_IT[month] + ' ' + year;
@@ -1022,7 +728,7 @@ function renderCalDay(dStr) {
     const done = isDone(act.id, dStr); const col = 'color-' + (COLORS[act.name] || 'ginnastica');
     const el = document.createElement('div'); el.className = `list-item ${col}`; el.style.opacity = done?'0.6':'1';
     el.innerHTML = `
-      <div class="list-info" onclick="openModal(${act.id},'${dStr}', null)">
+      <div class="list-info" onclick="openModal(${act.id},'${dStr}')">
         <div class="act-name">${act.name}</div><div style="font-size:0.8rem;color:var(--text-mid);margin-top:2px;">${act.timeStart} – ${act.timeEnd} • ${act.park}</div>
       </div>
       <div class="list-check ${done?'done':''}" onclick="markDone(${act.id},'${dStr}')"><svg viewBox="0 0 24 24" fill="none" stroke="${done?'white':'var(--green-light)'}" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
@@ -1032,7 +738,6 @@ function renderCalDay(dStr) {
 }
 function markDone(id, dStr) { toggleDone(id, dStr); const d = isDone(id, dStr); showToast(d ? 'Bravissimo! 🏆' : 'Segno rimosso'); renderCalendar(); }
 
-// HISTORY E STATS POPUP
 function renderHistory() {
   const wrap = document.getElementById('hist-stats-wrap');
   const list = document.getElementById('hist-list'); list.innerHTML = '';
@@ -1072,7 +777,7 @@ function renderHistory() {
     const el = document.createElement('div'); el.className = `list-item color-${COLORS[act.name]||'ginnastica'}`;
     el.innerHTML = `
       <div style="width:40px;text-align:center;background:var(--bg);padding:6px;border-radius:8px;"><div style="font-size:0.7rem;color:var(--text-light);font-weight:800;">${dStr.substring(8,10)}</div><div style="font-size:0.6rem;color:var(--green-deep);font-weight:800;">${MONTHS_IT[parseInt(dStr.substring(5,7))-1].substring(0,3)}</div></div>
-      <div class="list-info" onclick="openModal(${act.id},'${dStr}', null)">
+      <div class="list-info" onclick="openModal(${act.id},'${dStr}')">
         <div class="act-name">${act.name}</div><div style="font-size:0.8rem;color:var(--text-mid);">${act.park}</div>
       </div>
       <svg viewBox="0 0 24 24" fill="none" stroke="var(--green-dark)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="22" height="22"><polyline points="20 6 9 17 4 12"/></svg>
@@ -1110,7 +815,6 @@ function closeStatModal(e) {
   document.getElementById('stat-modal-overlay').classList.remove('open');
 }
 
-// INIT
 loadState();
 buildFilters();
 renderList();
